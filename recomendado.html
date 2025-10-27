@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="es">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<head>
+    <title>Orieus - Recomendado</title>
+    <!-- AllStyles-->
+    <link rel="stylesheet" href="./resources/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="./resources/css/spectre.css" />
+    <link rel="stylesheet" href="./resources/css/spectre-icons.css" />
+    <!-- Styles-->
+    <link rel="stylesheet" href="./resources/css/theme/theme.css" />
+    <link rel="stylesheet" href="./resources/css/theme/scrollbar.css" />
+    <link rel="stylesheet" href="./resources/css/theme/sidebar.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <!-- Scripts -->
+    <script src="./resources/js/bootstrap.bundle.min.js" type="text/javascript"></script>
+    <script src="./resources/js/jscolor.js" type="text/javascript"></script>
+    <script src="./resources/js/sidebar.js" type="text/javascript"></script>
+    <script src="./resources/js/theme.js" type="text/javascript"></script>
+
+    <!--End Styles-->
+</head>
+
+<body><!-- Header -->
+    <!-- Mobile Header -->
+    <header id="mobile-header">
+        <div id="mobile-flex">
+            <div id="mobile-left">
+                <div class="menu-button" style="font-size: 20pt;">
+                    <i class="fas fa-solid fa-bars"></i>
+                </div>
+            </div>
+            <div class="mobile-controls ">
+                <span class="form-group">
+                    <label class="form-switch">
+                        <input type="checkbox" id="darkToggle" onclick="DarkModeSelect()">
+                        <i class="form-icon"></i> Dark Mode
+                    </label>
+                </span>
+            </div>
+        </div>
+    </header>
+    <!-- Sidebar -->
+    <aside id="sidebar" class="">
+        <div id="side-content">
+            <div class="close"><a><i class="fa-sharp fa-solid fa-xmark"></i></a></div>
+            <a href="https://orieus-lesauce.github.io/">
+
+                <img class="oriu" src="/resources/images/logo.png" alt="" width="128">
+                <br><b>Orieus</b>
+            </a>
+            <div id="description">
+                Técnico informático apasionado por la tecnología y los videojuegos
+            </div>
+            <nav class="upper" id="side-nav">
+                <li>
+                    <a href="https://orieus-lesauce.github.io/">
+                        <i class="fas fa-solid fa-house"></i>
+                        <span class="nav-txt">Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://orieus-lesauce.github.io/posts">
+                        <i class="fas fa-solid fa-file-lines"></i>
+                        <span class="nav-txt">Posts</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://orieus-lesauce.github.io/recomendado">
+                        <i class="fas fa-solid fa-download"></i>
+                        <span class="nav-txt">Recomendado</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://orieus-lesauce.github.io/random">
+                        <i class="fas fa-solid fa-comments"></i>
+                        <span class="nav-txt">Random</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="https://orieus-lesauce.github.io/about">
+                        <i class="fas fa-solid fa-book"></i>
+                        <span class="nav-txt">Acerca de</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://www.youtube.com/@orieus_">
+                        <i class="fab fa-brands fa-youtube"></i>
+                        <span class="nav-txt">YouTube</span>
+                    </a>
+                </li>
+            </nav>
+        </div>
+    </aside>
+    <!-- Container -->
+    <section id="maincontent">
+        <!--Video Background-->
+        <div class="videocontainer">
+            <img src="https://i.imgur.com/yWMaXJu.gif" alt="moving background" id="header-img">
+        </div>
+        <!-- Page Content -->
+        <main role="main" class="pb-3">
+            <!--End Header-->
+            <form>
+                <div class="navipath">
+                    <a href="https://orieus-lesauce.github.io/"><i class="fa fa-home" aria-hidden="true"></i>
+                        orieus-lesauce.github.io</a>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i> Recomendado
+                </div>
+                <div class="text-left">
+                    <br>
+                    <h1 class="display-4">Recomendados</h1>
+                    <h3>
+                        Esta es mi lista personal de recursos online que suelo usar o encuentro útil.
+                    </h3>
+                    <table class="table table-striped table-hover">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <h3>Windows</h3>
+                                </td>
+                                <td>
+                                    <h5>Software</h5>
+                                    <br><a
+                                        href="https://github.com/massgravel/Microsoft-Activation-Scripts">Microsoft-Activation-Scripts</a>
+                                    - open source - scripts para activar Windows y Office
+                                    <br><a href="https://diskanalyzer.com/">WizTree</a> - gratis - analizador de espacio
+                                    ocupado en tu disco duro
+                                    <br><a href="https://github.com/yt-dlp/yt-dlp">yt-dlp</a> - open source - línea de
+                                    comandos para descargar audio/video en miles de sitios
+                                    <br><a href="https://github.com/StefanLobbenmeier/youtube-dl-gui">youtube-dl-gui</a>
+                                    - open source -
+                                    fork que añade una interfaz gráfica a yt-dlp
+                                    <br><a href="https://github.com/c0re100/qBittorrent-Enhanced-Edition">qBittorrent
+                                        Enhanced Edition</a> - open source - cliente bittorrent con funciones extra
+                                    <br><a href="https://obsproject.com/">OBS Studio</a> - open source - capturador de
+                                    pantalla para grabar videos y streaming, con soporte de plugins de la comunidad
+                                    <br><a href="https://notepad-plus-plus.org/">Notepad++</a> - open source -
+                                    alternativa al editor de texto integrado con funciones útiles
+                                    <br><a href="https://github.com/localsend/localsend">LocalSend</a> - open source -
+                                    compartir archivos entre dispositivos en tu red local
+                                    <br><a href="https://github.com/WerWolv/ImHex">ImHex</a> - open source - hex editor
+                                    con funciones útiles
+                                    <br><a href="https://github.com/ChrisTitusTech/winutil">WinUtil</a> - open source -
+                                    utilidad para debloat, configurar Windows
+                                    <br><a href="https://github.com/LizardByte/Sunshine">Sunshine</a> - open source -
+                                    host streamer de tu PC a otros dispositivos en tu red local con un cliente <a
+                                        href="https://moonlight-stream.org/">Moonlight</a>
+                                    <br><a href="https://github.com/qarmin/czkawka">Czkawka</a> - open source -
+                                    limpiador y organizador de archivos innecesarios de tu PC
+                                    <br><a href="https://github.com/Vendicated/Vencord">Vencord</a> - open source -
+                                    cliente de Discord con más funciones
+                                    <br><a href="https://github.com/File-New-Project/EarTrumpet">EarTrumpet</a> - open
+                                    source - mezclador de audio para Windows que prefiero sobre el nativo de W11
+                                    <br><a href="https://github.com/Abdelrhman-AK/WinPaletter">WinPaletter</a> - open
+                                    source - personalizador de temas de Windows
+                                    <br><a href="https://www.scootersoftware.com/home">
+                                        Beyond Compare</a> - prueba gratis - explorer FTP para comparación y
+                                    sincronización de archivos
+                                    <br><a href="https://winscp.net/">WinSCP</a> - open source - cliente SFTP/FTP para
+                                    transferir archivos
+                                    <br><a href="https://github.com/Struggleton/Delfinovinci">Delfinovin</a> - open
+                                    source - permite usar tu control de Gamecube como Xinput
+                                    <br><a href="https://bitwarden.com/">Bitwarden</a> - open source - gestor de
+                                    contraseñas que sincroniza tus claves en tus dispositivos
+                                    <br><a href="https://github.com/BrowserWorks/waterfox">Waterfox</a> - open source -
+                                    fork de Firefox centrado en la privacidad y rendimiento
+
+
+                                    <br>
+                                    <br>
+                                    <h5>Extensiones de navegador </h5>
+                                    <br><a href="https://ublockorigin.com/">uBlock Origin</a> - open source - bloqueador
+                                    de anuncios y rastreadores
+                                    <br><a href="https://privacybadger.org/">Privacy Badger</a> - open source -
+                                    bloqueador de rastreadores en URLs
+                                    <br><a href="https://darkreader.org/">Dark Reader</a> - open source - añade modo
+                                    oscuro a sitios web que no lo tienen
+                                    <br><a href="https://sponsor.ajay.app/">SponsorBlock</a> - open source - salta
+                                    automáticamente las secciones de anuncios de YouTube
+                                    <br><a href="https://www.mrfdev.com/enhancer-for-youtube">Enhancer for YouTube</a> -
+                                    open source - añade funciones útiles a YouTube
+                                    <br><a href="https://github.com/zpix1/yt-anti-translate">YT Anti Translate</a> -
+                                    open source - evita la traducción automática de títulos de videos, audio y
+                                    descripciones en YouTube
+                                    <br><a href="https://github.com/sienori/Tab-Session-Manager">Tab Session Manager</a>
+                                    - open source - guarda y restaura sesiones de pestañas
+                                    <br><a href="https://github.com/pixeltris/TwitchAdSolutions">TwitchAdSolutions</a> -
+                                    open source - bloqueador de anuncios en Twitch
+                                    <br><a href="https://codeberg.org/fpetros/twitch-audio-web-firefox">Twitch Audio
+                                        Web</a> - open source - escuchar Twitch en segundo plano para reducir consumo de
+                                    recursos
+
+
+
+                                    <br><a href="https://github.com/sixP-NaraKa/reddit-nsfw-unblocker">Reddit NSFW
+                                        Unblocker</a> - open source - desbloquea contenido NSFW sin login en Reddit
+
+                                    <br>
+                                    <br>
+                                </td>
+                            </tr>
+                            <tr class="table-switch">
+                                <td>
+                                    <h3>Switch</h3>
+                                </td>
+                                <td>
+                                    <h5>Homebrew</h5>
+                                    <br><a href="https://github.com/Atmosphere-NX/Atmosphere">Atmosphere</a> - open
+                                    source -
+                                    custom firmware para Switch
+                                    <br><a href="https://github.com/XITRIX/Moonlight-Switch/">Moonlight Switch
+                                    </a> - open source - cliente streamer de PC a Switch en tu red local a través de un
+                                    host <a href="https://github.com/LizardByte/Sunshine">Sunshine</a>
+                                    <br><a href="https://github.com/Huntereb/Awoo-Installer">Awoo Installer</a> - open
+                                    source -
+                                    instalador de NSP/NSZ/XCI/XCZ, sigpatches a través de SD, USB, LAN,
+                                    URL y Google Drive
+                                    <br><a href="https://www.retroarch.com/index.php">RetroArch</a> - open source -
+                                    emulador con soporte a muchas consolas antiguas desde Atari, hasta la 3DS, etc.
+                                    <br><a href="https://www.shipofharkinian.com/">Ship of Harkinian</a> - open source -
+                                    port nativo de TLoZ Ocarina of Time con mejoras, ajustes, cheats y randomizer
+                                    <br><a href="https://github.com/HamletDuFromage/aio-switch-updater">AIO Switch
+                                        Updater</a> - open source - actualiza CFWs, Firmware y cheats desde fuentes
+                                    conocidas o personalizadas
+                                    <br><a href="https://github.com/averne/SwitchWave">SwitchWave</a> - open source -
+                                    reproductor de video con aceleración de hardware basado en mpv y ffmpeg
+                                    <br><a href="https://github.com/HamletDuFromage/nx-locale-switcher">NX Locale
+                                        Switcher</a> - open source - cambia el idioma y región de un juego en específico
+                                    <br><a
+                                        href="https://gbatemp.net/threads/tesla-the-nintendo-switch-overlay-menu.557362/">Tesla
+                                        Menu</a> - open source - loader y hub de overlays
+                                    <br><a href="https://github.com/ndeadly/MissionControl">MissionControl</a> - open
+                                    source -
+                                    usa controles de otras consolas en Switch a través de Bluetooth
+                                    <br><a href="https://github.com/averne/MasterVolume">MasterVolume</a> - open source
+                                    -
+                                    controla el volumen maestro de la Switch
+                                    <br><a href="https://github.com/averne/Fizeau">Fizeau</a> - open source - ajusta los
+                                    colores de la pantalla de la Switch
+
+                                    <br><a href="https://github.com/masagrator/Status-Monitor-Overlay">Status Monitor
+                                        Overlay</a> - open source - muestra información del hardware en un overlay
+                                    <br><a href="https://github.com/masagrator/FPSLocker">FPSLocker</a> - open source -
+                                    customiza FPS y la taza de refresco de tu display en juegos
+                                    <br><a href="https://github.com/ChanseyIsTheBest/NX-60FPS-RES-GFX-Cheats">NX
+                                        60FPS RES GFX Cheats</a> - open source - colección de cheats para 60 FPS,
+                                    resolución y gráficos
+
+
+
+                                    <br>
+                                    <br>
+                                </td>
+                            </tr>
+                            <tr class="table-linux">
+                                <td>
+                                    <h3>Linux Mint <br> / Ubuntu</h3>
+                                </td>
+                                <td>
+                                    <h5>Recursos</h5>
+                                    <br><a href="https://easylinuxtipsproject.blogspot.com/p/1.html">Easy Linux Tips
+                                        Project</a> -
+                                    guía y consejos para principiantes en Linux Mint
+                                    <br><a href="https://github.com/Kabir5296/Stremio-Ubuntu24.04-Fix">Stremio
+                                        Ubuntu 24.04 Fix</a> - open source - solución para instalar Stremio en Ubuntu
+                                    24.04"
+                                    <br><a
+                                        href="https://www.reddit.com/r/RPGMaker/comments/s4lhg6/i_found_a_very_easy_way_to_play_rpg_maker_vx_ace/?show=original">
+                                        RPG Maker VX Ace en Linux Mint</a> - post de Reddit para juegos de RPG Maker VX
+                                    Ace usando Steam y Proton - <a href="https://pastebin.com/2mcDvJTG">backup post</a>
+                                    <br>
+                                    <br>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h3>Random</h3>
+                                </td>
+                                <td>
+                                    <h5>Sin orden</h5>
+                                    <br><a href="https://www.brailleinstitute.org/freefont/">Atkinson Hyperlegible
+                                        Font</a> -
+                                    Fuente diseñada para mejorar la legibilidad
+
+                                    <br>
+                                    <br>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <br>
+                <br>
+
+            </form>
+            <footer>
+                <!-- Footer -->
+                <hr>
+                <div class="columns">
+                    <div class="column col-6 col-sm-12">
+                        Orieus 2025
+                        <br>
+                        Página creada originalmente por <a href="https://shrinefox.com/">ShrineFox</a> 2020 - 2023
+                        <br> Apoyalo en sus proyectos!
+                        <br><a href="https://ko-fi.com/shrinefox"><i class="fa fa-coffee"></i> Ko-fi ShrineFox</a> |
+                        <a href="https://github.com/ShrineFox"><i class="fa-brands fa-github"></i></i> Github
+                            ShrineFox</a> |
+                    </div>
+                    <div class="column col-6 form-group col-sm-12">
+                        <!--Theme Select-->
+                        <select id="color" name="color" class="form-select" onchange="ColorSelect()">
+                            <option value="">Seleccionar tema</option>
+                            <option value="Red">Rojo</option>
+                            <option value="Orange">Naranjo</option>
+                            <option value="Yellow">Amarillo</option>
+                            <option value="Green">Verde</option>
+                            <option value="Blue">Azul</option>
+                            <option value="Violet">Violeta</option>
+                            <option value="Pink">Rosado</option>
+                            <option value="Magenta">Magenta</option>
+                            <option value="Custom">Personalizar</option>
+                        </select>
+                        <!--Color Picker-->
+                        <script type="text/javascript">
+                            jscolor.presets.default = {
+                                format: 'rgb', previewSize: 20, paletteCols: 1,
+                                backgroundColor: 'rgb(var(--bg))', borderColor: 'rgb(var(--bg))',
+                                padding: 5, width: 100, height: 100, mode: 'HVS',
+                                controlBorderColor: 'rgb(var(--bg))', sliderSize: 8, shadow: false
+                            };
+                        </script>
+
+                        <span class="column col-6 form-group" id="colorpicker" style="display:none;">
+                            <button id="customaccent"
+                                data-jscolor="{onChange: 'updateAccent(this)',value:'rgb(var(--accent))', alpha:1}">Accent</button>
+                        </span>
+                    </div>
+                </div>
+                <!-- End Footer -->
+            </footer>
+        </main>
+    </section>
+</body>
+
+</html>

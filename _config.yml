@@ -1,0 +1,15 @@
+title: "oriu blog"
+description: "blog personal de oriu"
+baseurl: "" 
+url: "https://orieus-lesauce.github.io/blog"
+
+# Configuración específica del blog
+collections:
+  posts:
+    output: true
+    permalink: /blog/:title/
+
+# Excluir archivos que no son de Jekyll
+exclude:
+  - node_modules/
+  - vendor/
