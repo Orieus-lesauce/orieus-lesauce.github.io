@@ -19,7 +19,7 @@
     <script src="/resources/js/sidebar.js" type="text/javascript"></script>
     <script src="/resources/js/theme.js" type="text/javascript"></script>
     <!--End Styles-->
-    
+
 </head>
 
 <body><!-- Header -->
@@ -55,38 +55,38 @@
             </div>
             <nav class="upper" id="side-nav">
                 <li>
-                    <a href="https://orieus-lesauce.github.io/">
+                    <a href="/">
                         <i class="fas fa-solid fa-house"></i>
                         <span class="nav-txt">Home</span>
                     </a>
                 </li>
                 <li>
-                    <a href="https://orieus-lesauce.github.io/blog">
+                    <a href="/blog.html">
                         <i class="fas fa-solid fa-file-lines"></i>
                         <span class="nav-txt">Blog</span>
                     </a>
                 </li>
                 <li>
-                    <a href="https://orieus-lesauce.github.io/recomendado">
+                    <a href="/recomendado.html">
                         <i class="fas fa-solid fa-download"></i>
                         <span class="nav-txt">Recomendado</span>
                     </a>
                 </li>
                 <li>
-                    <a href="https://orieus-lesauce.github.io/random">
+                    <a href="/random.html">
                         <i class="fas fa-solid fa-comments"></i>
                         <span class="nav-txt">Random</span>
                     </a>
                 </li>
 
                 <li>
-                    <a href="https://orieus-lesauce.github.io/about">
+                    <a href="/about.html">
                         <i class="fas fa-solid fa-book"></i>
                         <span class="nav-txt">Acerca de</span>
                     </a>
                 </li>
                 <li>
-                    <a href="https://www.youtube.com/@orieus_">
+                    <a href="https://www.youtube.com/@orieus_" target="_blank" rel="noopener">
                         <i class="fab fa-brands fa-youtube"></i>
                         <span class="nav-txt">YouTube</span>
                     </a>
@@ -104,17 +104,18 @@
         <main role="main" class="pb-3">
             <form>
                 <div class="navipath">
-                    <a href="https://orieus-lesauce.github.io/blog/"><i class="fa fa-home" aria-hidden="true"></i>
+                    <a href="https://orieus-lesauce.github.io"><i class="fa fa-home" aria-hidden="true"></i>
                         orieus-lesauce.github.io/blog</a>
-                    <i class="fa fa-angle-right" aria-hidden="true"></i> 
-                    <a href="https://orieus-lesauce.github.io/blog/{% if page.category %}{{ page.category }}.html{% endif %}">
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    <a
+                        href="https://orieus-lesauce.github.io/{% if page.category %}{{ page.category }}.html{% endif %}">
                         {{ page.category | capitalize }}
                     </a>
-                    <i class="fa fa-angle-right" aria-hidden="true"></i> 
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
                     {{ page.title }}
                 </div>
                 <div class="text-left">
-                    
+
                     <!-- Contenido del Post -->
                     <article class="post-full">
                         <header class="post-header">
@@ -124,11 +125,11 @@
                                 <span>Por: {{ page.author }}</span>
                             </div>
                         </header>
-                        
+
                         <div class="post-content">
                             {{ content }}
                         </div>
-                        
+
                         <footer class="post-footer">
                             {% if page.tags %}
                             <div class="post-tags">
@@ -140,7 +141,7 @@
                             {% endif %}
                         </footer>
                     </article>
-                    
+
                 </div>
                 <br>
                 <br>
@@ -150,7 +151,8 @@
                 <hr>
                 <div class="columns">
                     <div class="column col-6 col-sm-12">
-                        Orieus 2025
+                        Orieus 2025 | <a href="https://github.com/Orieus-lesauce"><i class="fa-brands fa-github"></i>
+                            Github</a>
                         <br>
                         Página creada originalmente por <a href="https://shrinefox.com/">ShrineFox</a> 2020 - 2023
                         <br> Apoyalo en sus proyectos!
