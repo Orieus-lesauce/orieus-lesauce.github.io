@@ -14,22 +14,23 @@ collections:
 
 defaults:
   - scope:
-    path: ""
-    type: "blog"
+      path: ""
+      type: "blog"
     values:
       layout: "post"
       author: "oriu"
       category: "blog"
+  
   - scope:
-    path: ""
-    type: "random"
+      path: ""
+      type: "random"
     values:
       layout: "post"
       author: "oriu"
       category: "random"
-    
 
 timezone: America/Santiago
+
 # Excluir archivos que no son de Jekyll
 exclude:
   - node_modules/
