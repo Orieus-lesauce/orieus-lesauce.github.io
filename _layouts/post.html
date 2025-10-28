@@ -104,47 +104,47 @@
         <main role="main" class="pb-3">
             <form>
                 <div class="navipath">
-                    <a href="https://orieus-lesauce.github.io/"><i class="fa fa-home" aria-hidden="true"></i>
-                        orieus-lesauce.github.io</a>
-                    <i class="fa fa-angle-right" aria-hidden="true"></i> Blog
-                    <i class="fa fa-angle-right" aria-hidden="true"></i> {{ page.title }}
+                    <a href="https://orieus-lesauce.github.io/blog/"><i class="fa fa-home" aria-hidden="true"></i>
+                        orieus-lesauce.github.io/blog</a>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i> 
+                    <a href="https://orieus-lesauce.github.io/blog/{% if page.category %}{{ page.category }}.html{% endif %}">
+                        {{ page.category | capitalize }}
+                    </a>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i> 
+                    {{ page.title }}
                 </div>
                 <div class="text-left">
-            <h1>{{ page.title }}</h1>
-                    {% if page.tags %}
-        <div class="post-tags">
-            {% for tag in page.tags %}
-            <a href="/tags/{{ tag | slugify }}/" class="tag">#{{ tag }}</a>
-            {% endfor %}
-        </div>
-        {% endif %}
-                    <div class="post-meta">
-            <!-- Fecha -->
-            <time datetime="{{ page.date | date_to_xmlschema }}" class="post-date">
-                {{ page.date | date: "%d de %B de %Y" }}
-            </time>
-            {{ content }}
-
-
+                    
+                    <!-- Contenido del Post -->
+                    <article class="post-full">
+                        <header class="post-header">
+                            <h1>{{ page.title }}</h1>
+                            <div class="post-meta" style="color: rgba(var(--text), 0.7);">
+                                <time>{{ page.date | date: "%d/%m/%Y" }}</time>
+                                <span>Por: {{ page.author }}</span>
+                            </div>
+                        </header>
+                        
+                        <div class="post-content">
+                            {{ content }}
+                        </div>
+                        
+                        <footer class="post-footer">
+                            {% if page.tags %}
+                            <div class="post-tags">
+                                <strong>Tags:</strong>
+                                {% for tag in page.tags %}
+                                <span class="tag">#{{ tag }}</span>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </footer>
+                    </article>
+                    
                 </div>
                 <br>
                 <br>
-        <nav class="post-navigation">
-            {% if page.previous %}
-            <a href="{{ page.previous.url }}" class="nav-prev">
-                ← {{ page.previous.title }}
-            </a>
-            {% endif %}
-            
-            {% if page.next %}
-            <a href="{{ page.next.url }}" class="nav-next">
-                {{ page.next.title }} →
-            </a>
-            {% endif %}
-        </nav>
-
             </form>
-
             <footer>
                 <!-- Footer -->
                 <hr>

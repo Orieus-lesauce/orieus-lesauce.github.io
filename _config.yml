@@ -1,9 +1,8 @@
 title: "oriu blog"
 description: "blog personal de oriu"
-baseurl: "" 
-url: "https://orieus-lesauce.github.io/blog"
+baseurl: ""
+url: "https://orieus-lesauce.github.io"
 
-# Configuración específica del blog
 collections:
   blog:
     output: true
@@ -30,8 +29,6 @@ defaults:
       category: "random"
 
 timezone: America/Santiago
-
-# Excluir archivos que no son de Jekyll
 exclude:
   - node_modules/
   - vendor/
