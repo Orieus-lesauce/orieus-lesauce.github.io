@@ -356,3 +356,200 @@ li.row {
 .forumlist_grid_icons li.row {
 	width: 100% !important;
 }
+
+/* Styles de Blog y Random */
+
+/* Contenedores principales */
+.blog-posts-container,
+.random-posts-container {
+    margin-top: 1em;
+}
+
+/* Tarjetas de posts */
+.blog-post-card,
+.random-post-card {
+    margin-bottom: 2em;
+    background: rgba(var(--accent), 0.03);
+    border: 1px solid rgba(var(--accent), 0.1);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.blog-post-card:hover,
+.random-post-card:hover {
+    box-shadow: 0 4px 12px rgba(var(--accent), 0.15);
+    transform: translateY(-2px);
+}
+
+/* Encabezados de tarjetas */
+.blog-post-card .card-header,
+.random-post-card .card-header {
+    background: rgba(var(--accent), 0.05);
+    border-bottom: 1px solid rgba(var(--accent), 0.1);
+    padding: 1.5em;
+}
+
+/* Títulos de posts */
+.post-title {
+    margin: 0 0 0.5em 0;
+    font-size: 1.4em;
+    line-height: 1.3;
+}
+
+.post-title a {
+    text-decoration: none;
+    color: rgba(var(--accent), 1) !important;
+    transition: color 0.3s ease;
+}
+
+.post-title a:hover {
+    color: rgba(var(--accenttext), 1) !important;
+    text-decoration: underline;
+}
+
+/* Metadatos de posts */
+.post-meta {
+    color: rgba(var(--text), 0.7);
+    font-size: 0.9em;
+}
+
+.post-meta time {
+    font-weight: 500;
+}
+
+/* Cuerpos de tarjetas */
+.blog-post-card .card-body,
+.random-post-card .card-body {
+    padding: 1.5em;
+}
+
+/* Contenido/excerpt de posts */
+.post-content {
+    line-height: 1.6;
+    margin-bottom: 1em;
+    color: rgba(var(--text), 0.9);
+}
+
+/* Contenedores de tags */
+.post-tags {
+    margin: 1em 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5em;
+}
+
+/* Tags individuales */
+.tag {
+    display: inline-block;
+    background: rgba(var(--accent), 0.2);
+    color: rgba(var(--accent), 1);
+    padding: 0.25em 0.75em;
+    border-radius: 12px;
+    font-size: 0.8em;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.tag:hover {
+    background: rgba(var(--accent), 0.4);
+    transform: translateY(-1px);
+}
+
+/* Acciones de posts */
+.post-actions {
+    margin-top: 1em;
+    display: flex;
+    justify-content: flex-start;
+}
+
+/* Botones "Leer más" */
+.btn-read-more {
+    background: rgba(var(--accent), 0.3) !important;
+    border: 1px solid rgba(var(--accent), 0.5) !important;
+    color: rgba(var(--accenttext), 1) !important;
+    text-decoration: none;
+    padding: 0.5em 1.5em;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.btn-read-more:hover {
+    background: rgba(var(--accent), 0.5) !important;
+    border-color: rgba(var(--accent), 0.7) !important;
+    transform: translateY(-1px);
+    text-decoration: none;
+}
+
+/* Tarjetas para cuando no hay posts */
+.no-posts-card {
+    text-align: center;
+    padding: 3em 2em;
+    background: rgba(var(--accent), 0.05);
+    border: 2px dashed rgba(var(--accent), 0.2);
+}
+
+.no-posts-card h3 {
+    color: rgba(var(--text), 0.8);
+    margin-bottom: 1em;
+}
+
+.no-posts-card p {
+    color: rgba(var(--text), 0.6);
+}
+
+/* Styles random.html */
+
+/* Efectos especiales para posts random */
+.random-post-card {
+    border-left: 4px solid rgba(var(--accent), 0.3);
+}
+
+.random-post-card:hover {
+    border-left-color: rgba(var(--accent), 0.6);
+}
+
+/* Puedes añadir más estilos específicos para random aquí */
+.random-posts-container .post-content {
+    font-style: italic;
+    color: rgba(var(--text), 0.8);
+}
+
+/* Styles blog.html */
+
+.blog-post-card {
+    border-top: 3px solid rgba(var(--accent), 0.1);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .blog-post-card .card-header,
+    .blog-post-card .card-body,
+    .random-post-card .card-header,
+    .random-post-card .card-body {
+        padding: 1em;
+    }
+    
+    .post-title {
+        font-size: 1.2em;
+    }
+    
+    .post-tags {
+        gap: 0.25em;
+    }
+    
+    .tag {
+        font-size: 0.75em;
+        padding: 0.2em 0.6em;
+    }
+    
+    .btn-read-more {
+        padding: 0.4em 1.2em;
+        font-size: 0.9em;
+    }
+    
+    .no-posts-card {
+        padding: 2em 1em;
+    }
+}

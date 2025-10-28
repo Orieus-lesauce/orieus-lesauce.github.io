@@ -105,7 +105,7 @@
             <form>
                 <div class="navipath">
                     <a href="https://orieus-lesauce.github.io"><i class="fa fa-home" aria-hidden="true"></i>
-                        orieus-lesauce.github.io/blog</a>
+                        orieus-lesauce.github.io</a>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
                     <a
                         href="https://orieus-lesauce.github.io/{% if page.category %}{{ page.category }}.html{% endif %}">
@@ -122,14 +122,14 @@
                             <h1>{{ page.title }}</h1>
                             <div class="post-meta" style="color: rgba(var(--text), 0.7);">
                                 <time>{{ page.date | date: "%d/%m/%Y" }}</time>
-                                <span>Por: {{ page.author }}</span>
+                                <br>
                             </div>
                         </header>
-
+                        <br>
                         <div class="post-content">
                             {{ content }}
                         </div>
-
+                        <!-- tags...
                         <footer class="post-footer">
                             {% if page.tags %}
                             <div class="post-tags">
@@ -140,6 +140,7 @@
                             </div>
                             {% endif %}
                         </footer>
+                        -->
                     </article>
 
                 </div>
