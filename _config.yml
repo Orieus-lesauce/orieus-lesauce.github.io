@@ -5,10 +5,31 @@ url: "https://orieus-lesauce.github.io/blog"
 
 # Configuración específica del blog
 collections:
-  posts:
+  blog:
     output: true
     permalink: /blog/:title/
+  random:
+    output: true
+    permalink: /random/:title/
 
+defaults
+  - scope:
+    path: ""
+    type: "blog"
+    values:
+      layout: "post"
+      author: "oriu"
+      category: "blog"
+  - scope:
+    path: ""
+    type: "random"
+    values:
+      layout: "post"
+      author: "oriu"
+      category: "random"
+    
+
+timezone: America/Santiago
 # Excluir archivos que no son de Jekyll
 exclude:
   - node_modules/

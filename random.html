@@ -61,9 +61,9 @@
                     </a>
                 </li>
                 <li>
-                    <a href="https://orieus-lesauce.github.io/posts">
+                    <a href="https://orieus-lesauce.github.io/blog">
                         <i class="fas fa-solid fa-file-lines"></i>
-                        <span class="nav-txt">Posts</span>
+                        <span class="nav-txt">Blog</span>
                     </a>
                 </li>
                 <li>
@@ -102,8 +102,49 @@
         </div>
         <!-- Page Content -->
         <main role="main" class="pb-3">
-            <h1>test</h1><a href="orieus-lesauce.github.io/random/r1">random 1</a>
+            <form>
+                <div class="navipath">
+                    <a href="https://orieus-lesauce.github.io/"><i class="fa fa-home" aria-hidden="true"></i>
+                        orieus-lesauce.github.io</a>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i> Random
+                </div>
+                <div class="text-left">
 
+    <div class="random-grid">
+        {% for post in site.random %}
+        <article class="random-card" style="--hue: {{ forloop.index | times: 50 | modulo: 360 }};">
+            <header class="random-card-header">
+                <h3><a href="{{ post.url }}">{{ post.title }}</a></h3>
+                
+                <div class="random-card-meta">
+                    <time>{{ post.date | date: "%d/%m" }}</time>
+                    
+                </div>
+            </header>
+            
+            <div class="random-card-content">
+                {{ post.excerpt | default: post.content | strip_html | truncate: 100 }}
+            </div>
+            
+            {% if post.tags %}
+            <footer class="random-card-footer">
+                {% for tag in post.tags limit: 2 %}
+                <span class="mini-tag">{{ tag }}</span>
+                {% endfor %}
+            </footer>
+            {% endif %}
+        </article>
+        {% endfor %}
+    </div>
+</div>
+
+
+                </div>
+                <br>
+                <br>
+
+
+            </form>
             <footer>
                 <!-- Footer -->
                 <hr>
