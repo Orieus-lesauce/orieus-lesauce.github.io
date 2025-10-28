@@ -12,7 +12,7 @@ collections:
     output: true
     permalink: /random/:title/
 
-defaults
+defaults:
   - scope:
     path: ""
     type: "blog"
