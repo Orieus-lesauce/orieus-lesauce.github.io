@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Servicio de Impresión</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 550px;
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2575fc 0%, #6a11cb 100%);
+            color: white;
+            padding: 25px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+        
+        .history-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        
+        .history-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .content {
+            padding: 25px;
+        }
+        
+        .step {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .step.active {
+            display: block;
+        }
+        
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 10px;
+        }
+        
+        .option-container {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .option {
+            flex: 1;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .option:hover {
+            border-color: #2575fc;
+            transform: translateY(-5px);
+        }
+        
+        .option.selected {
+            border-color: #2575fc;
+            background-color: #f0f7ff;
+            transform: translateY(-5px);
+        }
+        
+        .option h3 {
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .option p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .price {
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: #2575fc;
+            margin-top: 5px;
+        }
+        
+        .shortcut-key {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: #2575fc;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+        }
+        
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus {
+            border-color: #2575fc;
+            outline: none;
+        }
+        
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .summary-item.type {
+            color: #2575fc;
+            font-weight: 600;
+        }
+        
+        .summary-item.quantity {
+            color: #4CAF50;
+            font-weight: 600;
+        }
+        
+        .summary-item.price-item {
+            color: #FF9800;
+            font-weight: 600;
+        }
+        
+        .summary-item.total {
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: #9C27B0;
+            border-bottom: none;
+            margin-top: 10px;
+            padding-top: 15px;
+            border-top: 2px solid #f0f0f0;
+        }
+        
+        .receipt-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .receipt-item.total {
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: #9C27B0;
+            border-bottom: none;
+            margin-top: 10px;
+            padding-top: 15px;
+            border-top: 2px solid #f0f0f0;
+        }
+        
+        .receipt-item.payment {
+            color: #FF5722;
+            font-weight: 600;
+        }
+        
+        .receipt-item.change {
+            color: #4CAF50;
+            font-weight: 600;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #2575fc 0%, #6a11cb 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 14px 20px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(37, 117, 252, 0.4);
+        }
+        
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+        }
+        
+        .btn-secondary:hover {
+            background: #e0e0e0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-add {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 15px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            margin-top: 15px;
+        }
+        
+        .btn-add:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 3px 10px rgba(76, 175, 80, 0.3);
+        }
+        
+        .btn-container {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .btn-container .btn {
+            flex: 1;
+        }
+        
+        .receipt {
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            border: 1px dashed #ccc;
+        }
+        
+        .receipt h3 {
+            text-align: center;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .success-message {
+            text-align: center;
+            color: #4CAF50;
+            font-weight: bold;
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f0fff0;
+            border-radius: 8px;
+            border: 1px solid #4CAF50;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .error {
+            color: #f44336;
+            font-size: 0.9rem;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        .shortcut-info {
+            text-align: center;
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            font-style: italic;
+        }
+        
+        .auto-advance-notice {
+            text-align: center;
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            font-style: italic;
+        }
+        
+        .print-items {
+            margin-bottom: 15px;
+            max-height: 200px;
+            overflow-y: auto;
+            padding: 10px;
+            border: 1px solid #f0f0f0;
+            border-radius: 8px;
+        }
+        
+        .print-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px dashed #e0e0e0;
+        }
+        
+        .print-item:last-child {
+            border-bottom: none;
+        }
+        
+        .print-item-type {
+            font-weight: 600;
+            color: #2575fc;
+        }
+        
+        .print-item-quantity {
+            color: #4CAF50;
+        }
+        
+        .print-item-cost {
+            color: #FF9800;
+            font-weight: 600;
+        }
+        
+        /* Estilos para el historial */
+        .history-container {
+            max-height: 400px;
+            overflow-y: auto;
+            margin-top: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 15px;
+        }
+        
+        .history-item {
+            background: #f9f9f9;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-left: 4px solid #2575fc;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .history-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        
+        .history-date {
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .history-total {
+            font-weight: bold;
+            color: #9C27B0;
+        }
+        
+        .history-details {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .empty-history {
+            text-align: center;
+            color: #999;
+            font-style: italic;
+            padding: 20px;
+        }
+        
+        .history-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .history-actions .btn {
+            flex: 1;
+            padding: 10px;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Servicio de Impresión</h1>
+            <button class="history-btn" id="btn-show-history">Ver Historial</button>
+        </div>
+        
+        <div class="content">
+            <!-- Paso 1: Selección de tipo de impresión -->
+            <div class="step active" id="step1">
+                <h2>Seleccione el tipo de impresión</h2>
+                
+                <div class="option-container">
+                    <div class="option" data-type="byn" data-price="50" id="option-byn">
+                        <div class="shortcut-key">1</div>
+                        <h3>Blanco y Negro</h3>
+                        <p>Ideal para documentos de texto</p>
+                        <div class="price">$50 por hoja</div>
+                    </div>
+                    
+                    <div class="option" data-type="color" data-price="200" id="option-color">
+                        <div class="shortcut-key">2</div>
+                        <h3>A Color</h3>
+                        <p>Perfecto para imágenes y gráficos</p>
+                        <div class="price">$200 por hoja</div>
+                    </div>
+                </div>
+                
+                <div class="shortcut-info">Usa las teclas 1 y 2 para seleccionar rápidamente</div>
+            </div>
+            
+            <!-- Paso 2: Cantidad de hojas -->
+            <div class="step" id="step2">
+                <h2>Ingrese la cantidad de hojas</h2>
+                
+                <div class="form-group">
+                    <label for="quantity">Cantidad de hojas a imprimir:</label>
+                    <input type="number" id="quantity" min="1" value="1" autofocus>
+                    <div class="error" id="error-step2">Por favor, ingrese una cantidad válida (mínimo 1)</div>
+                </div>
+                
+                <div class="auto-advance-notice">Presiona ENTER para continuar</div>
+                
+                <div class="btn-container">
+                    <button class="btn btn-secondary" id="btn-back-step2">Atrás</button>
+                    <button class="btn" id="btn-step2">Continuar</button>
+                </div>
+            </div>
+            
+            <!-- Paso 3: Resumen y pago -->
+            <div class="step" id="step3">
+                <h2>Resumen del pedido</h2>
+                
+                <div class="print-items" id="print-items">
+                    <!-- Aquí se mostrarán los items de impresión -->
+                </div>
+                
+                <div id="order-summary">
+                    <!-- Aquí se mostrará el resumen dinámicamente -->
+                </div>
+                
+                <button class="btn-add" id="btn-add-print">
+                    <span>+</span> Añadir otra impresión (Tecla +)
+                </button>
+                
+                <div class="form-group">
+                    <label for="payment">Cantidad con la que paga el cliente:</label>
+                    <input type="number" id="payment" min="0" step="0.01" autofocus>
+                    <div class="error" id="error-step3">El pago debe ser igual o mayor al total</div>
+                </div>
+                
+                <div class="auto-advance-notice">Presiona ENTER para continuar</div>
+                
+                <div class="btn-container">
+                    <button class="btn btn-secondary" id="btn-back-step3">Atrás</button>
+                    <button class="btn" id="btn-step3">Calcular vuelto</button>
+                </div>
+            </div>
+            
+            <!-- Paso 4: Recibo final -->
+            <div class="step" id="step4">
+                <h2>Recibo de pago</h2>
+                
+                <div class="receipt" id="final-receipt">
+                    <!-- Aquí se mostrará el recibo final -->
+                </div>
+                
+                <div class="success-message">
+                    ¡Pedido completado exitosamente!
+                </div>
+                
+                <div class="btn-container">
+                    <button class="btn" id="btn-restart" autofocus>Nueva Impresión (ENTER)</button>
+                    <button class="btn btn-secondary" id="btn-view-history">Ver Historial</button>
+                </div>
+            </div>
+            
+            <!-- Paso 5: Historial -->
+            <div class="step" id="step5">
+                <h2>Historial de Pedidos</h2>
+                
+                <div class="history-container" id="history-container">
+                    <!-- Aquí se mostrará el historial -->
+                </div>
+                
+                <div class="history-actions">
+                    <button class="btn btn-secondary" id="btn-back-from-history">Volver</button>
+                    <button class="btn" id="btn-clear-history">Limpiar Historial</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Variables globales
+        let selectedType = '';
+        let selectedPrice = 0;
+        let quantity = 1;
+        let totalCost = 0;
+        let payment = 0;
+        let change = 0;
+        let printItems = [];
+        let orderHistory = [];
+        
+        // Elementos DOM
+        const steps = document.querySelectorAll('.step');
+        const options = document.querySelectorAll('.option');
+        const errorStep2 = document.getElementById('error-step2');
+        const errorStep3 = document.getElementById('error-step3');
+        const quantityInput = document.getElementById('quantity');
+        const paymentInput = document.getElementById('payment');
+        const restartBtn = document.getElementById('btn-restart');
+        const printItemsContainer = document.getElementById('print-items');
+        const addPrintBtn = document.getElementById('btn-add-print');
+        const historyContainer = document.getElementById('history-container');
+        
+        // Cargar historial desde localStorage al iniciar
+        document.addEventListener('DOMContentLoaded', function() {
+            loadHistory();
+        });
+        
+        // Paso 1: Selección de tipo de impresión
+        options.forEach(option => {
+            option.addEventListener('click', function() {
+                selectOption(this);
+                // Avanzar automáticamente al paso 2 después de seleccionar
+                setTimeout(() => {
+                    showStep(2);
+                }, 300);
+            });
+        });
+        
+        // Atajos de teclado para seleccionar opciones
+        document.addEventListener('keydown', function(e) {
+            // Solo procesar atajos si estamos en el paso 1
+            if (document.getElementById('step1').classList.contains('active')) {
+                if (e.key === '1') {
+                    selectOption(document.getElementById('option-byn'));
+                    setTimeout(() => {
+                        showStep(2);
+                    }, 300);
+                } else if (e.key === '2') {
+                    selectOption(document.getElementById('option-color'));
+                    setTimeout(() => {
+                        showStep(2);
+                    }, 300);
+                }
+            }
+            
+            // Tecla + para añadir otra impresión en el paso 3
+            if (document.getElementById('step3').classList.contains('active') && e.key === '+') {
+                addAnotherPrint();
+            }
+            
+            // Permitir usar Enter para avanzar en el paso 4 (nueva impresión)
+            if (document.getElementById('step4').classList.contains('active') && e.key === 'Enter') {
+                restartSystem();
+            }
+        });
+        
+        // Paso 2: Cantidad de hojas
+        document.getElementById('btn-step2').addEventListener('click', function() {
+            processQuantityStep();
+        });
+        
+        // Permitir usar Enter para avanzar en el paso de cantidad
+        quantityInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                processQuantityStep();
+            }
+        });
+        
+        document.getElementById('btn-back-step2').addEventListener('click', function() {
+            showStep(1);
+        });
+        
+        // Paso 3: Pago
+        document.getElementById('btn-step3').addEventListener('click', function() {
+            processPaymentStep();
+        });
+        
+        // Permitir usar Enter para avanzar en el paso de pago
+        paymentInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                processPaymentStep();
+            }
+        });
+        
+        document.getElementById('btn-back-step3').addEventListener('click', function() {
+            showStep(2);
+        });
+        
+        // Botón para añadir otra impresión
+        addPrintBtn.addEventListener('click', function() {
+            addAnotherPrint();
+        });
+        
+        // Paso 4: Reiniciar
+        restartBtn.addEventListener('click', function() {
+            restartSystem();
+        });
+        
+        // Botones de historial
+        document.getElementById('btn-show-history').addEventListener('click', function() {
+            showHistory();
+        });
+        
+        document.getElementById('btn-view-history').addEventListener('click', function() {
+            showHistory();
+        });
+        
+        document.getElementById('btn-back-from-history').addEventListener('click', function() {
+            showStep(1);
+        });
+        
+        document.getElementById('btn-clear-history').addEventListener('click', function() {
+            clearHistory();
+        });
+        
+        // Funciones auxiliares
+        function selectOption(optionElement) {
+            // Remover selección previa
+            options.forEach(opt => opt.classList.remove('selected'));
+            
+            // Seleccionar nueva opción
+            optionElement.classList.add('selected');
+            selectedType = optionElement.getAttribute('data-type');
+            selectedPrice = parseInt(optionElement.getAttribute('data-price'));
+        }
+        
+        function showStep(stepNumber) {
+            steps.forEach(step => step.classList.remove('active'));
+            document.getElementById(`step${stepNumber}`).classList.add('active');
+            
+            // Enfocar automáticamente el campo de entrada en los pasos 2 y 3
+            if (stepNumber === 2) {
+                setTimeout(() => {
+                    quantityInput.focus();
+                    quantityInput.select();
+                }, 300);
+            } else if (stepNumber === 3) {
+                // Si es la primera vez que llegamos al paso 3, añadir el primer item
+                if (printItems.length === 0) {
+                    addCurrentPrintToItems();
+                }
+                updateOrderSummary();
+                setTimeout(() => {
+                    paymentInput.focus();
+                    paymentInput.select();
+                }, 300);
+            } else if (stepNumber === 4) {
+                setTimeout(() => {
+                    restartBtn.focus();
+                }, 300);
+            } else if (stepNumber === 5) {
+                updateHistoryDisplay();
+            }
+        }
+        
+        function processQuantityStep() {
+            quantity = parseInt(quantityInput.value);
+            
+            if (isNaN(quantity) || quantity < 1) {
+                errorStep2.style.display = 'block';
+                quantityInput.focus();
+                return;
+            }
+            
+            errorStep2.style.display = 'none';
+            
+            // Si ya hay items, actualizar el último
+            if (printItems.length > 0) {
+                printItems[printItems.length - 1].quantity = quantity;
+                printItems[printItems.length - 1].cost = selectedPrice * quantity;
+            }
+            
+            updateOrderSummary();
+            showStep(3);
+        }
+        
+        function addCurrentPrintToItems() {
+            const typeText = selectedType === 'byn' ? 'Blanco y Negro' : 'A Color';
+            const cost = selectedPrice * quantity;
+            
+            printItems.push({
+                type: typeText,
+                quantity: quantity,
+                price: selectedPrice,
+                cost: cost
+            });
+        }
+        
+        function addAnotherPrint() {
+            // Añadir la impresión actual a la lista
+            addCurrentPrintToItems();
+            
+            // Resetear para la siguiente impresión
+            options.forEach(opt => opt.classList.remove('selected'));
+            selectedType = '';
+            selectedPrice = 0;
+            quantityInput.value = '1';
+            
+            // Volver al paso 1 para seleccionar nueva impresión
+            showStep(1);
+        }
+        
+        function processPaymentStep() {
+            payment = parseFloat(paymentInput.value);
+            totalCost = printItems.reduce((sum, item) => sum + item.cost, 0);
+            
+            if (isNaN(payment) || payment < totalCost) {
+                errorStep3.style.display = 'block';
+                paymentInput.focus();
+                return;
+            }
+            
+            errorStep3.style.display = 'none';
+            change = payment - totalCost;
+            
+            // Guardar en el historial
+            saveToHistory();
+            
+            updateFinalReceipt();
+            showStep(4);
+        }
+        
+        function restartSystem() {
+            // Reiniciar variables
+            selectedType = '';
+            selectedPrice = 0;
+            quantity = 1;
+            totalCost = 0;
+            payment = 0;
+            change = 0;
+            printItems = [];
+            
+            // Reiniciar UI
+            options.forEach(opt => opt.classList.remove('selected'));
+            document.getElementById('quantity').value = '1';
+            document.getElementById('payment').value = '';
+            
+            showStep(1);
+        }
+        
+        function updateOrderSummary() {
+            totalCost = printItems.reduce((sum, item) => sum + item.cost, 0);
+            
+            // Actualizar lista de items
+            printItemsContainer.innerHTML = '';
+            printItems.forEach((item, index) => {
+                const itemElement = document.createElement('div');
+                itemElement.className = 'print-item';
+                itemElement.innerHTML = `
+                    <span class="print-item-type">${item.type}</span>
+                    <span class="print-item-quantity">${item.quantity} hojas</span>
+                    <span class="print-item-cost">$${item.cost}</span>
+                `;
+                printItemsContainer.appendChild(itemElement);
+            });
+            
+            // Actualizar resumen total
+            document.getElementById('order-summary').innerHTML = `
+                <div class="summary-item total">
+                    <span>COSTO TOTAL:</span>
+                    <span>$${totalCost}</span>
+                </div>
+            `;
+        }
+        
+        function updateFinalReceipt() {
+            // Mostrar items individuales
+            let itemsHTML = '';
+            printItems.forEach(item => {
+                itemsHTML += `
+                    <div class="receipt-item">
+                        <span>${item.type} (${item.quantity} hojas)</span>
+                        <span>$${item.cost}</span>
+                    </div>
+                `;
+            });
+            
+            document.getElementById('final-receipt').innerHTML = `
+                <h3>RECIBO</h3>
+                ${itemsHTML}
+                <div class="receipt-item total">
+                    <span>Total a pagar:</span>
+                    <span>$${totalCost}</span>
+                </div>
+                <div class="receipt-item payment">
+                    <span>Pago recibido:</span>
+                    <span>$${payment}</span>
+                </div>
+                <div class="receipt-item change">
+                    <span>Vuelto:</span>
+                    <span>$${change.toFixed(2)}</span>
+                </div>
+            `;
+        }
+        
+        // Funciones del historial
+        function saveToHistory() {
+            const order = {
+                id: Date.now(),
+                date: new Date().toLocaleString('es-ES'),
+                items: [...printItems],
+                total: totalCost,
+                payment: payment,
+                change: change
+            };
+            
+            orderHistory.unshift(order); // Añadir al principio
+            saveHistory();
+        }
+        
+        function saveHistory() {
+            localStorage.setItem('printServiceHistory', JSON.stringify(orderHistory));
+        }
+        
+        function loadHistory() {
+            const savedHistory = localStorage.getItem('printServiceHistory');
+            if (savedHistory) {
+                orderHistory = JSON.parse(savedHistory);
+            }
+        }
+        
+        function showHistory() {
+            showStep(5);
+        }
+        
+        function updateHistoryDisplay() {
+            if (orderHistory.length === 0) {
+                historyContainer.innerHTML = '<div class="empty-history">No hay pedidos en el historial</div>';
+                return;
+            }
+            
+            let historyHTML = '';
+            orderHistory.forEach(order => {
+                let itemsText = order.items.map(item => 
+                    `${item.type} (${item.quantity})`
+                ).join(', ');
+                
+                if (itemsText.length > 50) {
+                    itemsText = itemsText.substring(0, 50) + '...';
+                }
+                
+                historyHTML += `
+                    <div class="history-item" data-id="${order.id}">
+                        <div class="history-header">
+                            <span class="history-date">${order.date}</span>
+                            <span class="history-total">$${order.total}</span>
+                        </div>
+                        <div class="history-details">${itemsText}</div>
+                    </div>
+                `;
+            });
+            
+            historyContainer.innerHTML = historyHTML;
+            
+            // Añadir event listeners a los items del historial
+            document.querySelectorAll('.history-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    const orderId = parseInt(this.getAttribute('data-id'));
+                    viewOrderDetails(orderId);
+                });
+            });
+        }
+        
+        function viewOrderDetails(orderId) {
+            const order = orderHistory.find(o => o.id === orderId);
+            if (!order) return;
+            
+            // Mostrar detalles del pedido en un alert (podría mejorarse con un modal)
+            let details = `Pedido del ${order.date}\n\n`;
+            order.items.forEach(item => {
+                details += `${item.type}: ${item.quantity} hojas - $${item.cost}\n`;
+            });
+            details += `\nTotal: $${order.total}\n`;
+            details += `Pago: $${order.payment}\n`;
+            details += `Vuelto: $${order.change.toFixed(2)}`;
+            
+            alert(details);
+        }
+        
+        function clearHistory() {
+            if (confirm('¿Estás seguro de que quieres limpiar todo el historial?')) {
+                orderHistory = [];
+                saveHistory();
+                updateHistoryDisplay();
+            }
+        }
+    </script>
+</body>
+</html>
