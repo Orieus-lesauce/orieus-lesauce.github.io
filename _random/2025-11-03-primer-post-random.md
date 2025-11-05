@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "post random test"
-date: 2025-10-15
+date: 2025-11-03
 categories: [test, web, random]
 author: "oriu"
 ---

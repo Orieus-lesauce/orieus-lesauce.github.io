@@ -18,9 +18,31 @@
     <script src="./resources/js/jscolor.js" type="text/javascript"></script>
     <script src="./resources/js/sidebar.js" type="text/javascript"></script>
     <script src="./resources/js/theme.js" type="text/javascript"></script>
+
     <!--End Styles-->
 
 </head>
+<!-- Modal para acceder a /random.html -->
+<div class="modal" id="warningModalCenter" aria-hidden="true">
+    <div class="modal-overlay" id="modalOverlay"></div>
+    <div class="modal-container centered-modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <div class="modal-header">
+            <button class="close-btn" id="closeBtn" aria-label="Cerrar">✕</button>
+            <div class="modal-title h5" id="modalTitle">Advertencia</div>
+        </div>
+        <div class="modal-body">
+            <div class="content">
+                <p>Esta sección puede contener contenido inapropiado, solo accede si tienes +18 años <br> ¿Deseas
+                    continuar?</p>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button id="exitBtn" class="btn btn-secondary modal-btn">Salir</button>
+            <button id="continueBtn" class="btn btn-primary modal-btn">Continuar</button>
+        </div>
+
+    </div>
+</div>
 
 <body><!-- Header -->
     <!-- Mobile Header -->
@@ -106,36 +128,36 @@
 
 
             ---
-layout: default
-title: Blog
----
+            layout: default
+            title: Blog
+            ---
 
-<form>
-    <div class="navipath">
-        <a href="/"><i class="fa fa-home" aria-hidden="true"></i>
-            orieus-lesauce.github.io</a>
-        <i class="fa fa-angle-right" aria-hidden="true"></i> Blog
-    </div>
-    <div class="text-left">
-
-        <!-- Contenido de Blog Posts -->
-        <div class="blog-posts-container">
-            {% for post in site.blog %}
-            <div class="card blog-post-card">
-                <div class="card-header">
-                    <h3 class="post-title">
-                        <a href="{{ post.url }}">{{ post.title }}</a>
-                    </h3>
-                    <div class="post-meta">
-                        <time>{{ post.date | date: "%d/%m/%Y" }}</time>
-                    </div>
+            <form>
+                <div class="navipath">
+                    <a href="/"><i class="fa fa-home" aria-hidden="true"></i>
+                        orieus-lesauce.github.io</a>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i> Blog
                 </div>
-                <div class="card-body">
-                    <div class="post-content">
-                        {{ post.excerpt | default: post.content | strip_html | truncate: 250 }}
-                    </div>
+                <div class="text-left">
 
-                    <!-- tags...
+                    <!-- Contenido de Blog Posts -->
+                    <div class="blog-posts-container">
+                        {% for post in site.blog %}
+                        <div class="card blog-post-card">
+                            <div class="card-header">
+                                <h3 class="post-title">
+                                    <a href="{{ post.url }}">{{ post.title }}</a>
+                                </h3>
+                                <div class="post-meta">
+                                    <time>{{ post.date | date: "%d/%m/%Y" }}</time>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="post-content">
+                                    {{ post.excerpt | default: post.content | strip_html | truncate: 250 }}
+                                </div>
+
+                                <!-- tags...
                     {% if post.tags %}
                     <div class="post-tags">
                         {% for tag in post.tags %}
@@ -145,23 +167,23 @@ title: Blog
                     {% endif %}
                     -->
 
-                    <div class="post-actions">
-                        <a href="{{ post.url }}" class="btn btn-read-more">
-                            Leer más
-                        </a>
+                                <div class="post-actions">
+                                    <a href="{{ post.url }}" class="btn btn-primary modal-btn mt-4 mb-2">
+                                        Leer más
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        {% else %}
+                        <div class="card no-posts-card">
+                            <h3>No hay posts disponibles :c</h3>
+                            <p>Pronto habrá contenido aquí...</p>
+                        </div>
+                        {% endfor %}
                     </div>
-                </div>
-            </div>
-            {% else %}
-            <div class="card no-posts-card">
-                <h3>No hay posts disponibles :c</h3>
-                <p>Pronto habrá contenido aquí...</p>
-            </div>
-            {% endfor %}
-        </div>
 
-    </div>
-</form>
+                </div>
+            </form>
 
 
             <footer>
@@ -182,6 +204,7 @@ title: Blog
                         <!--Theme Select-->
                         <select id="color" name="color" class="form-select" onchange="ColorSelect()">
                             <option value="">Seleccionar tema</option>
+                            <option value="default">Por Defecto</option>
                             <option value="Red">Rojo</option>
                             <option value="Orange">Naranjo</option>
                             <option value="Yellow">Amarillo</option>
@@ -211,7 +234,9 @@ title: Blog
                 <!-- End Footer -->
             </footer>
         </main>
+
     </section>
+
 </body>
 
 </html>

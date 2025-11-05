@@ -21,7 +21,26 @@
     <!--End Styles-->
 
 </head>
-
+<!-- Modal para acceder a /random.html -->
+<div class="modal" id="warningModalCenter" aria-hidden="true">
+    <div class="modal-overlay" id="modalOverlay"></div>
+    <div class="modal-container centered-modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <div class="modal-header">
+            <button class="close-btn" id="closeBtn" aria-label="Cerrar">✕</button>
+            <div class="modal-title h5" id="modalTitle">Advertencia</div>
+        </div>
+        <div class="modal-body">
+            <div class="content">
+                <p>Esta sección puede contener contenido inapropiado, solo accede si tienes +18 años <br> ¿Deseas
+                    continuar?</p>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button id="exitBtn" class="btn btn-secondary modal-btn">Salir</button>
+            <button id="continueBtn" class="btn btn-primary modal-btn">Continuar</button>
+        </div>
+    </div>
+</div>
 <body><!-- Header -->
     <!-- Mobile Header -->
     <header id="mobile-header">
@@ -143,6 +162,7 @@
                         <!--Theme Select-->
                         <select id="color" name="color" class="form-select" onchange="ColorSelect()">
                             <option value="">Seleccionar tema</option>
+                            <option value="default">Por Defecto</option>
                             <option value="Red">Rojo</option>
                             <option value="Orange">Naranjo</option>
                             <option value="Yellow">Amarillo</option>

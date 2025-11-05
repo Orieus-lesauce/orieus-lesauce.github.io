@@ -1,4 +1,14 @@
-﻿body {
+﻿:root {
+	--accent-switch: 169, 71, 71;
+    --accent-linux: 68, 163, 69;
+	--accent: 92, 149, 199;
+	--text: 225, 225, 225;
+	--accenttext: 255, 255, 255;
+	--bg: 01, 04, 09;
+	--margin: 2em;
+}
+
+body {
 	font-size: 16px;
 	color: rgba(var(--text), 1);
 	background-color: rgba(var(--bg), 1);
@@ -370,5 +380,112 @@
 
 	#sidebar:not(.hidden) + #maincontent {
 		margin-left: 300px;
+	}
+}
+
+
+/* estilos modal para acceder a /random.html */
+.modal-overlay {
+	background: rgba(0, 0, 0, 0.7) !important; /* fondo más oscuro */
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.centered-modal {
+	background: rgba(var(--bg), 0.95);
+	color: rgba(var(--text), 1);
+	border-radius: 12px;
+	border: 1px solid rgba(var(--accent), 0.3);
+	box-shadow: 0 8px 32px rgba(var(--accent), 0.5);
+	max-width: 400px;
+	width: 90%;
+	margin: auto;
+	text-align: center;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.centered-modal .modal-header,
+.centered-modal .modal-footer {
+	border-color: rgba(var(--accent), 0.2);
+}
+
+/* botón de X */
+.close-btn {
+	font-size: 1.5rem;
+	color: rgba(var(--text), 1);
+	opacity: 0.8;
+	cursor: pointer;
+	background: none;
+	border: none;
+	transition: 0.2s ease;
+	margin-top: 5px;
+	margin-left: -8px;
+}
+
+.close-btn:hover {
+	opacity: 1;
+	transform: scale(1.1);
+}
+
+.modal-title {
+	color: rgba(var(--accent), 1);
+	font-weight: 600;
+	margin-top: 6px;
+}
+
+/* botones */
+.modal-btn {
+	min-width: 120px;
+	font-size: 1rem;
+	padding: 0.7em 1.5em;
+	border-radius: 16px;
+	color: rgba(var(--text), 1) !important;
+	line-height: 1.2;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	transition: all 0.2s ease;
+	margin: 0 0.3em;
+}
+
+.modal .btn-primary {
+	background: rgba(var(--accent), 0.5) !important;
+	border: 1px solid rgba(var(--accent), 0.6);
+	color: rgba(var(--text), 1) !important;
+	
+}
+
+.modal .btn-primary:hover {
+	background: rgba(var(--accent), 0.7) !important;
+	
+}
+
+.modal .btn-secondary {
+	background: rgba(var(--accent), 0.15);
+	border: 1px solid rgba(var(--accent), 0.3);
+}
+
+.modal .btn-secondary:hover {
+	background: rgba(var(--accent), 0.25);
+}
+
+/* animación smooth */
+.modal.active .centered-modal {
+	animation: fadeIn 0.25s ease;
+}
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+		transform: translate(-50%, -48%);
+	}
+	to {
+		opacity: 1;
+		transform: translate(-50%, -50%);
 	}
 }
