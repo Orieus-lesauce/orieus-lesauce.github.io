@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prueba de Estilos Markdown</title>
+    
+    <!-- Incluye TODOS tus estilos actuales -->
+    <link rel="stylesheet" href="./resources/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="./resources/css/spectre.css" />
+    <link rel="stylesheet" href="./resources/css/spectre-icons.css" />
+    <link rel="stylesheet" href="./resources/css/theme/theme.css" />
+    <link rel="stylesheet" href="./resources/css/theme/scrollbar.css" />
+    <link rel="stylesheet" href="./resources/css/theme/sidebar.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    
+    <!-- Añade los nuevos estilos que te propuse -->
+    <style>
+        /* ===== ESTILOS PARA CÓDIGO Y ELEMENTOS DE MARKDOWN ===== */
+        /* Código inline (entre backticks ` `) */
+        code {
+            background: rgba(var(--accent), 0.15);
+            color: rgba(var(--accent), 1);
+            padding: 0.2em 0.4em;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            border: 1px solid rgba(var(--accent), 0.3);
+        }
+
+        /* Texto en negrita (entre ** **) */
+        strong, b {
+            color: rgba(var(--accenttext), 1);
+            font-weight: 600;
+        }
+
+        /* Texto subíndice (entre <sub></sub>) */
+        sub {
+            font-size: 0.8em;
+            color: rgba(var(--text), 0.7);
+            vertical-align: sub;
+        }
+
+        /* Texto superíndice (entre <sup></sup>) */
+        sup {
+            font-size: 0.8em;
+            color: rgba(var(--text), 0.7);
+            vertical-align: super;
+        }
+
+        /* Bloques de código (entre ``` ```) */
+        pre {
+            background: rgba(var(--bg), 0.8);
+            border: 1px solid rgba(var(--accent), 0.2);
+            border-radius: 6px;
+            padding: 1em;
+            overflow-x: auto;
+            margin: 1em 0;
+        }
+
+        pre code {
+            background: none;
+            border: none;
+            padding: 0;
+            color: rgba(var(--text), 0.9);
+        }
+
+        /* Citas (entre > ) */
+        blockquote {
+            border-left: 4px solid rgba(var(--accent), 0.5);
+            padding-left: 1em;
+            margin: 1em 0;
+            color: rgba(var(--text), 0.8);
+            font-style: italic;
+        }
+
+        /* Listas */
+        ul, ol {
+            padding-left: 2em;
+            margin: 1em 0;
+        }
+
+        li {
+            margin: 0.5em 0;
+            color: rgba(var(--text), 0.9);
+        }
+
+        /* Contenedor de prueba */
+        .test-container {
+            max-width: 800px;
+            margin: 2em auto;
+            padding: 2em;
+            background: rgba(var(--bg), 1);
+            color: rgba(var(--text), 1);
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🧪 Prueba de Estilos Markdown</h1>
+        <p>Este archivo simula cómo se verán tus posts en Markdown</p>
+        
+        <hr style="margin: 2em 0; border-color: rgba(var(--accent), 0.3);">
+        
+        <!-- Simulación de tu post real -->
+        <div class="post-content">
+            <h2>DESCUENTO EN PAPA JOHNS ñamñam</h2>
+            
+            <p>GENTE, el otro día quería pedir un yon del papa barato... me llego una notificación con el código <code>VOLVAMOS</code> y no sé si les funcione pero me dio <strong>$7.500</strong> de descuento desde la <strong>app</strong><sub>ayón</sub> o.o, terminamos comiendo 1 pizza XL y acompañamiento como por <strong>$11.000 wao</strong>, ojalá les sirva!!!</p>
+        </div>
+        
+        <hr style="margin: 2em 0; border-color: rgba(var(--accent), 0.3);">
+        
+        <!-- Más ejemplos de formatos Markdown -->
+        <div class="post-content">
+            <h3>🎨 Todos los formatos Markdown</h3>
+            
+            <p><strong>Texto en negrita</strong> y <em>texto en cursiva</em></p>
+            
+            <p>Código inline: <code>npm install</code> y <code>git commit -m "mensaje"</code></p>
+            
+            <blockquote>
+                Esto es una cita o blockquote.
+                Puede tener múltiples líneas y se usa para destacar texto importante.
+            </blockquote>
+            
+            <p>Texto con <sub>subíndice</sub> y <sup>superíndice</sup></p>
+            
+            <ul>
+                <li>Elemento de lista 1</li>
+                <li>Elemento de lista 2</li>
+                <li>Elemento de lista 3</li>
+            </ul>
+            
+            <ol>
+                <li>Elemento ordenado 1</li>
+                <li>Elemento ordenado 2</li>
+                <li>Elemento ordenado 3</li>
+            </ol>
+            
+            <pre><code>// Esto es un bloque de código
+function saludar() {
+    console.log("¡Hola mundo!");
+    return true;
+}</code></pre>
+        </div>
+        
+        <hr style="margin: 2em 0; border-color: rgba(var(--accent), 0.3);">
+        
+        <!-- Diferentes colores para probar -->
+        <div class="post-content">
+            <h3>🎯 Prueba con diferentes códigos</h3>
+            
+            <p>Código normal: <code>VOLVAMOS</code></p>
+            <p>Código con números: <code>DESC2024</code></p>
+            <p>Código largo: <code>MIENTRAS_ESTES_LEYENDO_ESTO_COMES_PIZZA</code></p>
+            <p>Múltiples códigos: Usa <code>VOLVAMOS</code> para descuento o <code>PIZZATIME</code> para promociones</p>
+        </div>
+    </div>
+</body>
+</html>

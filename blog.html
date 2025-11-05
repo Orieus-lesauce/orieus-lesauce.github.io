@@ -26,7 +26,7 @@ title: Blog
                 </div>
                 <div class="card-body">
                     <div class="post-content">
-                        {{ post.excerpt | default: post.content | strip_html | truncate: 150 }}
+                        {{ post.excerpt | default: post.content | strip_html | truncate: 100 }}
                     </div>
 
                     <!-- tags...
