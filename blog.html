@@ -13,7 +13,8 @@ title: Blog
 
         <!-- Contenido de Blog Posts -->
         <div class="blog-posts-container">
-            {% for post in site.blog %}
+            {% assign sorted_posts = site.blog | sort: "date" | reverse %}
+            {% for post in sorted_posts %}
             <div class="card blog-post-card">
                 <div class="card-header">
                     <h3 class="post-title">
@@ -25,7 +26,7 @@ title: Blog
                 </div>
                 <div class="card-body">
                     <div class="post-content">
-                        {{ post.excerpt | default: post.content | strip_html | truncate: 250 }}
+                        {{ post.excerpt | default: post.content | strip_html | truncate: 150 }}
                     </div>
 
                     <!-- tags...
