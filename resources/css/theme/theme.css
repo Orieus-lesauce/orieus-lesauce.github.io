@@ -554,10 +554,9 @@ li.row {
     }
 }
 
-/* markdown */
+/* markdown para posts */
 
-/* inline ´ ´ */
-code {
+.post-content code {
     background: rgba(var(--accent), 0.15);
     color: rgba(var(--accent), 1);
     padding: 0.2em 0.4em;
@@ -567,28 +566,25 @@ code {
     border: 1px solid rgba(var(--accent), 0.3);
 }
 
-/* negrita */
-strong, b {
+.post-content strong, 
+.post-content b {
     color: rgba(var(--accenttext), 1);
     font-weight: 600;
 }
 
-/* <sub> */
-sub {
+.post-content sub {
     font-size: 0.8em;
     color: rgba(var(--text), 0.7);
     vertical-align: sub;
 }
 
-/* <sup> */
-sup {
+.post-content sup {
     font-size: 0.8em;
     color: rgba(var(--text), 0.7);
     vertical-align: super;
 }
 
-/* code block ´´´ */
-pre {
+.post-content pre {
     background: rgba(var(--bg), 0.8);
     border: 1px solid rgba(var(--accent), 0.2);
     border-radius: 6px;
@@ -597,15 +593,14 @@ pre {
     margin: 1em 0;
 }
 
-pre code {
+.post-content pre code {
     background: none;
     border: none;
     padding: 0;
     color: rgba(var(--text), 0.9);
 }
 
-/* citas > */
-blockquote {
+.post-content blockquote {
     border-left: 4px solid rgba(var(--accent), 0.5);
     padding-left: 1em;
     margin: 1em 0;
@@ -613,18 +608,17 @@ blockquote {
     font-style: italic;
 }
 
-/* Listas */
-ul, ol {
+.post-content ul, 
+.post-content ol {
     padding-left: 2em;
     margin: 1em 0;
 }
 
-li {
+.post-content li {
     margin: 0.5em 0;
     color: rgba(var(--text), 0.9);
 }
 
-/* links del post */
 .post-content a {
     color: rgba(var(--accent), 1) !important;
     text-decoration: underline;
