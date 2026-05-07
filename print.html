@@ -600,11 +600,11 @@
       <div class="type-card byn" id="optByn" data-type="byn" data-price="50">
         <div class="badge">BYN</div>
         <div class="key-hint">tecla 1</div>
-        <div class="type-icon">🖤</div>
+        <div class="type-icon">📄</div>
         <div class="type-name">Blanco y Negro</div>
         <div class="type-sub">Documentos, texto</div>
         <div class="type-price">$50</div>
-        <div class="type-sub">por hoja</div>
+        <div class="type-sub">por plana</div>
       </div>
       <div class="type-card color" id="optColor" data-type="color" data-price="200">
         <div class="badge">COLOR</div>
@@ -613,7 +613,7 @@
         <div class="type-name">A Color</div>
         <div class="type-sub">Fotos, gráficos</div>
         <div class="type-price">$200</div>
-        <div class="type-sub">por hoja</div>
+        <div class="type-sub">por plana</div>
       </div>
     </div>
 
@@ -837,7 +837,7 @@ document.getElementById('optColor').addEventListener('click', function(){ select
 function updateTypeBadge() {
   const badge = document.getElementById('typeBadgeQty');
   const cls   = state.type === 'byn' ? 'byn' : 'color';
-  const label = state.type === 'byn' ? '🖤 Blanco y Negro · $50/hoja' : '🌈 A Color · $200/hoja';
+  const label = state.type === 'byn' ? '📄 Blanco y Negro · $50/hoja' : '🌈 A Color · $200/hoja';
   badge.innerHTML = `<div class="selected-type-badge ${cls}">${label}</div>`;
 
   const inp = document.getElementById('qtyInput');
@@ -897,7 +897,7 @@ function renderItems() {
     const row = document.createElement('div');
     row.className = 'item-row';
 
-    const typeSpan = `<span class="item-type ${item.type}">${item.type === 'byn' ? '🖤 BYN' : '🌈 Color'}</span>`;
+    const typeSpan = `<span class="item-type ${item.type}">${item.type === 'byn' ? '📄 BYN' : '🌈 Color'}</span>`;
 
     let qtyCell, costCell;
     if (isSheets) {
