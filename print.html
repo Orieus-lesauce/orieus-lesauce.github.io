@@ -38,6 +38,34 @@
     --sans:      'IBM Plex Sans', sans-serif;
   }
 
+body.light {
+    --bg:        #f3f3f3;
+    --surface:   #ffffff;
+    --border:    #d0d7de;
+    --text:      #1c2128;
+    --muted:     #57606a;
+
+    --byn:       #475569;
+    --byn-bg:    #e8ecf0;
+    --byn-bd:    #94a3b8;
+    --byn-glow:  rgba(71,85,105,0.12);
+
+    --col:       #b45309;
+    --col-bg:    #fef3c7;
+    --col-bd:    #fbbf24;
+    --col-glow:  rgba(180,83,9,0.12);
+
+    --green:     #16a34a;
+    --green-bg:  #a3ffc3;
+    --green-bd:  #86efac;
+
+    --total:     #ea580c;
+    --total-bg:  #ffedd5;
+    --total-bd:  #fb923c;
+
+    --cancel:    #dc2626;
+  }
+
   * { margin:0; padding:0; box-sizing:border-box; }
 
   body {
@@ -585,6 +613,7 @@
 <div class="app-header">
   <div class="app-title">🖨 Servicio de Impresión <span>w1.0</span></div>
   <div class="header-actions">
+    <button class="hbtn" id="btnTheme" title="Cambiar tema">🌙</button>
     <button class="hbtn" id="btnHistory">📋 Historial</button>
   </div>
 </div>
@@ -824,6 +853,20 @@ function showStep(id) {
     renderHistory();
   }
 }
+
+// ── THEME TOGGLE ──
+(function() {
+  if (localStorage.getItem('printTheme') === 'light') {
+    document.body.classList.add('light');
+    document.getElementById('btnTheme').textContent = '☀️';
+  }
+})();
+
+document.getElementById('btnTheme').addEventListener('click', function() {
+  const isLight = document.body.classList.toggle('light');
+  this.textContent = isLight ? '☀️' : '🌙';
+  localStorage.setItem('printTheme', isLight ? 'light' : 'dark');
+});
 
 // ── STEP 1: TYPE SELECT ──
 function selectType(el) {
