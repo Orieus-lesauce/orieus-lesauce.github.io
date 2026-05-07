@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Servicio de Impresión</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:        #0d1117;
+    --surface:   #161b22;
+    --border:    #30363d;
+    --text:      #e6edf3;
+    --muted:     #8b949e;
+
+    --byn:       #94a3b8;
+    --byn-bg:    #1e2533;
+    --byn-bd:    #475569;
+    --byn-glow:  rgba(148,163,184,0.15);
+
+    --col:       #fbbf24;
+    --col-bg:    #1f1a0e;
+    --col-bd:    #92400e;
+    --col-glow:  rgba(251,191,36,0.15);
+
+    --green:     #22c55e;
+    --green-bg:  #052e16;
+    --green-bd:  #166534;
+
+    --total:     #f97316;
+    --total-bg:  #1c0a00;
+    --total-bd:  #7c2d12;
+
+    --cancel:    #ef4444;
+
+    --radius:    10px;
+    --mono:      'IBM Plex Mono', monospace;
+    --sans:      'IBM Plex Sans', sans-serif;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 16px;
+  }
+
+  /* ── HEADER ── */
+  .app-header {
+    width: 100%;
+    max-width: 640px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 0 16px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 20px;
+  }
+  .app-title {
+    font-family: var(--mono);
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: var(--text);
+  }
+  .app-title span { color: var(--total); }
+
+  .header-actions { display: flex; gap: 8px; }
+
+  .hbtn {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 0.78rem;
+    font-family: var(--mono);
+    cursor: pointer;
+    transition: all .2s;
+  }
+  .hbtn:hover { color: var(--text); border-color: var(--muted); }
+
+  /* ── CARD ── */
+  .card {
+    width: 100%;
+    max-width: 640px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    position: relative;
+  }
+
+  /* ── STEPS ── */
+  .step { display: none; animation: fadeUp .25s ease; }
+  .step.active { display: block; }
+  @keyframes fadeUp {
+    from { opacity:0; transform:translateY(8px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+
+  .step-label {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .step-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: var(--text);
+  }
+
+  /* ── TYPE OPTIONS ── */
+  .type-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 18px;
+  }
+
+  .type-card {
+    background: var(--bg);
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 16px;
+    cursor: pointer;
+    transition: all .2s;
+    position: relative;
+    text-align: center;
+    user-select: none;
+  }
+  .type-card:hover { transform: translateY(-3px); }
+
+  .type-card.byn { border-color: var(--byn-bd); background: var(--byn-bg); }
+  .type-card.byn:hover, .type-card.byn.selected {
+    border-color: var(--byn);
+    box-shadow: 0 0 18px var(--byn-glow);
+  }
+  .type-card.color { border-color: var(--col-bd); background: var(--col-bg); }
+  .type-card.color:hover, .type-card.color.selected {
+    border-color: var(--col);
+    box-shadow: 0 0 18px var(--col-glow);
+  }
+
+  .type-card .badge {
+    position: absolute;
+    top: 8px; left: 8px;
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    font-weight: 700;
+    background: rgba(255,255,255,0.08);
+    border-radius: 4px;
+    padding: 2px 7px;
+    letter-spacing: .06em;
+  }
+  .type-card.byn .badge { color: var(--byn); }
+  .type-card.color .badge { color: var(--col); }
+
+  .type-card .key-hint {
+    position: absolute;
+    top: 8px; right: 8px;
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 4px;
+    padding: 2px 7px;
+    color: var(--muted);
+  }
+
+  .type-card .type-icon { font-size: 2rem; margin: 8px 0 10px; }
+  .type-card.byn .type-icon { filter: grayscale(1); }
+
+  .type-name {
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 4px;
+  }
+  .type-card.byn .type-name { color: var(--byn); }
+  .type-card.color .type-name { color: var(--col); }
+
+  .type-price {
+    font-family: var(--mono);
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-top: 6px;
+  }
+  .type-card.byn .type-price { color: var(--byn); }
+  .type-card.color .type-price { color: var(--col); }
+
+  .type-sub { font-size: 0.75rem; color: var(--muted); margin-bottom: 2px; }
+
+  .shortcut-hint {
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--muted);
+    font-family: var(--mono);
+    padding: 6px;
+  }
+
+  /* ── INPUT ── */
+  .input-group { margin-bottom: 20px; }
+  .input-label {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-bottom: 8px;
+    display: block;
+    font-family: var(--mono);
+    letter-spacing: .05em;
+  }
+  .big-input {
+    width: 100%;
+    background: var(--bg);
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 2rem;
+    font-weight: 700;
+    padding: 14px 18px;
+    text-align: center;
+    transition: border-color .2s;
+  }
+  .big-input:focus { outline: none; border-color: var(--total); }
+  .big-input.byn-focus:focus { border-color: var(--byn); }
+  .big-input.col-focus:focus { border-color: var(--col); }
+
+  .error-msg {
+    color: var(--cancel);
+    font-size: 0.8rem;
+    font-family: var(--mono);
+    margin-top: 6px;
+    display: none;
+  }
+
+  /* ── SELECTED TYPE BADGE ── */
+  .selected-type-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    font-weight: 700;
+    margin-bottom: 18px;
+  }
+  .selected-type-badge.byn { background: var(--byn-bg); color: var(--byn); border: 1px solid var(--byn-bd); }
+  .selected-type-badge.color { background: var(--col-bg); color: var(--col); border: 1px solid var(--col-bd); }
+
+  /* ── ORDER DETAIL ── */
+  .items-list {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-bottom: 14px;
+  }
+  .items-list-header {
+    display: grid;
+    grid-template-columns: 1fr 80px 90px 28px;
+    padding: 8px 14px;
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    border-bottom: 1px solid var(--border);
+  }
+  .items-list-header .th-right { text-align: right; }
+
+  .item-row {
+    display: grid;
+    grid-template-columns: 1fr 80px 90px 28px;
+    align-items: center;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    transition: background .15s;
+  }
+  .item-row:last-child { border-bottom: none; }
+  .item-row:hover { background: rgba(255,255,255,0.03); }
+
+  .item-type {
+    font-weight: 600;
+    font-size: 0.88rem;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .item-type.byn { color: var(--byn); }
+  .item-type.color { color: var(--col); }
+
+  .item-qty, .item-cost {
+    font-family: var(--mono);
+    font-size: 0.88rem;
+    text-align: right;
+  }
+  .item-qty { color: var(--muted); }
+  .item-cost { color: var(--green); font-weight: 600; }
+
+  .item-del {
+    background: none;
+    border: none;
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 2px 4px;
+    border-radius: 4px;
+    transition: all .15s;
+    text-align: right;
+  }
+  .item-del:hover { color: var(--cancel); background: rgba(239,68,68,0.1); }
+
+  /* toggle view */
+  .view-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  .view-toggle span { font-size: 0.72rem; color: var(--muted); font-family: var(--mono); }
+  .toggle-btn {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--muted);
+    font-size: 0.72rem;
+    font-family: var(--mono);
+    padding: 4px 10px;
+    cursor: pointer;
+    transition: all .2s;
+  }
+  .toggle-btn:hover, .toggle-btn.active { border-color: var(--total); color: var(--total); }
+
+  /* ── TOTAL BAR ── */
+  .total-bar {
+    background: var(--total-bg);
+    border: 1px solid var(--total-bd);
+    border-radius: var(--radius);
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+  .total-label {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: var(--total);
+    opacity: .8;
+  }
+  .total-amount {
+    font-family: var(--mono);
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--total);
+  }
+
+  /* ── BUTTONS ── */
+  .btn-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 4px;
+  }
+  .btn {
+    flex: 1;
+    padding: 12px 16px;
+    border-radius: var(--radius);
+    font-family: var(--sans);
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: all .2s;
+  }
+  .btn-primary {
+    background: var(--total);
+    color: #fff;
+  }
+  .btn-primary:hover { filter: brightness(1.1); transform: translateY(-1px); }
+
+  .btn-secondary {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--muted);
+  }
+  .btn-secondary:hover { border-color: var(--muted); color: var(--text); }
+
+  .btn-add {
+    background: var(--green-bg);
+    border: 1px solid var(--green-bd);
+    color: var(--green);
+    font-size: 1rem;
+  }
+  .btn-add:hover { filter: brightness(1.15); transform: translateY(-1px); }
+
+  .btn-cancel {
+    background: none;
+    border: 1px solid rgba(239,68,68,0.3);
+    color: var(--cancel);
+    flex: none;
+    padding: 12px 18px;
+  }
+  .btn-cancel:hover { background: rgba(239,68,68,0.1); border-color: var(--cancel); }
+
+  /* ── COIN BUTTONS ── */
+  .coin-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .coin-btn {
+    background: var(--green-bg);
+    border: 1px solid var(--green-bd);
+    color: var(--green);
+    border-radius: 8px;
+    padding: 7px 12px;
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all .15s;
+  }
+  .coin-btn:hover { background: rgba(34,197,94,0.15); transform: translateY(-2px); }
+  .coin-btn:active { transform: translateY(0); }
+
+  /* ── PAYMENT ── */
+  .payment-display {
+    background: var(--green-bg);
+    border: 1px solid var(--green-bd);
+    border-radius: var(--radius);
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  .payment-label { font-family: var(--mono); font-size: 0.75rem; color: var(--green); opacity: .8; text-transform: uppercase; }
+  .payment-amount { font-family: var(--mono); font-size: 1.8rem; font-weight: 700; color: var(--green); }
+
+  /* ── RECEIPT ── */
+  .receipt-box {
+    background: var(--bg);
+    border: 1px dashed var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 18px;
+  }
+  .receipt-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.88rem;
+  }
+  .receipt-row:last-child { border-bottom: none; }
+  .receipt-row .rkey { color: var(--muted); }
+  .receipt-row .rval { font-family: var(--mono); font-weight: 600; }
+  .receipt-row.r-total .rkey, .receipt-row.r-total .rval { color: var(--total); font-size: 1rem; font-weight: 700; }
+  .receipt-row.r-paid .rval { color: var(--green); }
+  .receipt-row.r-change .rkey, .receipt-row.r-change .rval { color: var(--green); font-size: 1.3rem; font-weight: 700; }
+  .receipt-row.r-change { padding: 14px 0 4px; border-top: 2px solid var(--green-bd); margin-top: 6px; }
+
+  .change-box {
+    background: var(--green-bg);
+    border: 2px solid var(--green-bd);
+    border-radius: var(--radius);
+    text-align: center;
+    padding: 18px;
+    margin-bottom: 18px;
+  }
+  .change-label { font-family: var(--mono); font-size: 0.75rem; color: var(--green); opacity:.75; text-transform: uppercase; letter-spacing:.1em; margin-bottom: 4px; }
+  .change-value { font-family: var(--mono); font-size: 2.4rem; font-weight: 700; color: var(--green); }
+
+  /* ── HISTORY ── */
+  .history-list { max-height: 420px; overflow-y: auto; }
+  .history-item {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--total);
+    border-radius: var(--radius);
+    padding: 14px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: all .2s;
+  }
+  .history-item:hover { border-left-color: var(--total); transform: translateX(3px); background: rgba(255,255,255,0.02); }
+
+  .history-item-header { display: flex; justify-content: space-between; margin-bottom: 6px; }
+  .history-date { font-size: 0.78rem; color: var(--muted); font-family: var(--mono); }
+  .history-total { font-family: var(--mono); font-weight: 700; color: var(--total); }
+  .history-items-text { font-size: 0.82rem; color: var(--muted); }
+  .history-change { font-size: 0.78rem; color: var(--green); font-family: var(--mono); margin-top: 4px; }
+
+  .history-detail-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+  }
+  .history-detail-modal.open { display: flex; }
+  .modal-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    width: 100%;
+    max-width: 400px;
+    animation: fadeUp .2s ease;
+  }
+  .modal-title { font-weight: 700; font-size: 1rem; margin-bottom: 4px; }
+  .modal-date { font-size: 0.75rem; color: var(--muted); font-family: var(--mono); margin-bottom: 16px; }
+  .modal-close {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    border-radius: 6px;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    width: 100%;
+    margin-top: 14px;
+  }
+  .modal-close:hover { color: var(--text); }
+
+  /* ── MISC ── */
+  .kbd {
+    display: inline-block;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 4px;
+    padding: 1px 6px;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--muted);
+  }
+  .hint-row {
+    display: flex; gap: 12px; flex-wrap: wrap;
+    font-size: 0.73rem; color: var(--muted);
+    margin-top: 12px; font-family: var(--mono);
+  }
+  .hint-row span { display: flex; align-items: center; gap: 4px; }
+
+  .divider { border: none; border-top: 1px solid var(--border); margin: 16px 0; }
+
+  .empty-state { text-align: center; color: var(--muted); font-size: 0.9rem; padding: 32px; font-family: var(--mono); }
+
+  .success-pill {
+    background: var(--green-bg);
+    border: 1px solid var(--green-bd);
+    color: var(--green);
+    text-align: center;
+    border-radius: 8px;
+    padding: 10px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 14px;
+  }
+
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<div class="app-header">
+  <div class="app-title">🖨 Servicio de Impresión <span>w1.0</span></div>
+  <div class="header-actions">
+    <button class="hbtn" id="btnHistory">📋 Historial</button>
+  </div>
+</div>
+
+<div class="card">
+
+  <!-- ════ PASO 1: TIPO ════ -->
+  <div class="step active" id="step1">
+    <div class="step-label">Paso 1 / 3</div>
+    <div class="step-title">¿Tipo de impresión?</div>
+
+    <div class="type-grid">
+      <div class="type-card byn" id="optByn" data-type="byn" data-price="50">
+        <div class="badge">BYN</div>
+        <div class="key-hint">tecla 1</div>
+        <div class="type-icon">🖤</div>
+        <div class="type-name">Blanco y Negro</div>
+        <div class="type-sub">Documentos, texto</div>
+        <div class="type-price">$50</div>
+        <div class="type-sub">por hoja</div>
+      </div>
+      <div class="type-card color" id="optColor" data-type="color" data-price="200">
+        <div class="badge">COLOR</div>
+        <div class="key-hint">tecla 2</div>
+        <div class="type-icon">🌈</div>
+        <div class="type-name">A Color</div>
+        <div class="type-sub">Fotos, gráficos</div>
+        <div class="type-price">$200</div>
+        <div class="type-sub">por hoja</div>
+      </div>
+    </div>
+
+    <div class="shortcut-hint">
+      <span class="kbd">1</span> Blanco y Negro &nbsp;·&nbsp; <span class="kbd">2</span> A Color
+    </div>
+  </div>
+
+  <!-- ════ PASO 2: CANTIDAD ════ -->
+  <div class="step" id="step2">
+    <div class="step-label">Paso 2 / 3</div>
+    <div class="step-title">¿Cuántas hojas?</div>
+
+    <div id="typeBadgeQty"></div>
+
+    <div class="input-group">
+      <label class="input-label" for="qtyInput">NÚMERO DE HOJAS</label>
+      <input class="big-input" type="number" id="qtyInput" min="1" value="1">
+      <div class="error-msg" id="errorQty">⚠ Ingresa un número válido (mínimo 1)</div>
+    </div>
+
+    <div id="previewCost" style="font-family:var(--mono);color:var(--muted);font-size:0.85rem;text-align:center;margin-bottom:16px;"></div>
+
+    <div class="btn-row">
+      <button class="btn btn-cancel" id="btnBackQty">✕ Cancelar</button>
+      <button class="btn btn-secondary" id="btnEscQty">← Volver</button>
+      <button class="btn btn-primary" id="btnContinueQty">Continuar →</button>
+    </div>
+
+    <div class="hint-row">
+      <span><span class="kbd">Enter</span> continuar</span>
+      <span><span class="kbd">Esc</span> volver</span>
+    </div>
+  </div>
+
+  <!-- ════ PASO 3: DETALLE ════ -->
+  <div class="step" id="step3">
+    <div class="step-label">Paso 3 / 3</div>
+    <div class="step-title">Detalle del pedido</div>
+
+    <div class="view-toggle">
+      <span>Ver como:</span>
+      <button class="toggle-btn active" id="viewPricePerSheet">$/hoja</button>
+      <button class="toggle-btn" id="viewSheetsPerPrice">hojas/$</button>
+    </div>
+
+    <div class="items-list">
+      <div class="items-list-header">
+        <div>Tipo</div>
+        <div class="th-right" id="colQtyHeader">Hojas</div>
+        <div class="th-right" id="colCostHeader">Total</div>
+        <div></div>
+      </div>
+      <div id="itemsContainer"></div>
+    </div>
+
+    <div class="total-bar">
+      <div class="total-label">Total a cobrar</div>
+      <div class="total-amount" id="totalDisplay">$0</div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-cancel" id="btnCancelOrder">✕ Cancelar</button>
+      <button class="btn btn-add" id="btnAddMore">+ Agregar</button>
+      <button class="btn btn-primary" id="btnGoPayment">Cobrar →</button>
+    </div>
+
+    <div class="hint-row">
+      <span><span class="kbd">+</span> agregar más</span>
+      <span><span class="kbd">Enter</span> cobrar</span>
+      <span><span class="kbd">Esc</span> cancelar</span>
+    </div>
+  </div>
+
+  <!-- ════ PASO 4: PAGO ════ -->
+  <div class="step" id="step4">
+    <div class="step-label">Pago</div>
+    <div class="step-title">¿Cuánto paga el cliente?</div>
+
+    <div class="total-bar" style="margin-bottom:14px;">
+      <div class="total-label">Total a cobrar</div>
+      <div class="total-amount" id="totalPayStep">$0</div>
+    </div>
+
+    <label class="input-label">MONEDAS Y BILLETES RÁPIDOS</label>
+    <div class="coin-grid" id="coinGrid">
+      <button class="coin-btn" data-val="50">$50</button>
+      <button class="coin-btn" data-val="100">$100</button>
+      <button class="coin-btn" data-val="500">$500</button>
+      <button class="coin-btn" data-val="1000">$1.000</button>
+      <button class="coin-btn" data-val="2000">$2.000</button>
+      <button class="coin-btn" data-val="5000">$5.000</button>
+      <button class="coin-btn" data-val="10000">$10.000</button>
+      <button class="coin-btn" data-val="0" id="coinExact" style="border-color:var(--total-bd);color:var(--total);background:var(--total-bg);">Exacto</button>
+    </div>
+
+    <div class="input-group">
+      <label class="input-label" for="payInput">O INGRESA EL MONTO MANUALMENTE</label>
+      <input class="big-input" type="number" id="payInput" min="0" placeholder="0">
+      <div class="error-msg" id="errorPay">⚠ El pago debe ser mayor o igual al total</div>
+    </div>
+
+    <div class="payment-display" id="paymentDisplay" style="display:none;">
+      <div class="payment-label">Pago recibido</div>
+      <div class="payment-amount" id="payDisplayAmount">$0</div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-cancel" id="btnCancelPay">✕ Cancelar</button>
+      <button class="btn btn-secondary" id="btnBackPay">← Volver</button>
+      <button class="btn btn-primary" id="btnCalc">Calcular →</button>
+    </div>
+
+    <div class="hint-row">
+      <span><span class="kbd">Enter</span> calcular</span>
+      <span><span class="kbd">Esc</span> volver</span>
+    </div>
+  </div>
+
+  <!-- ════ PASO 5: RESULTADO ════ -->
+  <div class="step" id="step5">
+    <div class="success-pill">✓ Venta registrada</div>
+
+    <div class="change-box">
+      <div class="change-label">Vuelto a entregar</div>
+      <div class="change-value" id="changeDisplay">$0</div>
+    </div>
+
+    <div class="receipt-box" id="receiptBox"></div>
+
+    <div class="btn-row">
+      <button class="btn btn-primary" id="btnNew">Nueva venta</button>
+    </div>
+
+    <div class="hint-row" style="justify-content:center;">
+      <span><span class="kbd">Enter</span> nueva venta</span>
+    </div>
+  </div>
+
+  <!-- ════ HISTORIAL ════ -->
+  <div class="step" id="stepHistory">
+    <div class="step-title">📋 Historial de ventas</div>
+    <div class="history-list" id="historyList"></div>
+    <div class="btn-row" style="margin-top:12px;">
+      <button class="btn btn-secondary" id="btnBackHistory">← Volver</button>
+      <button class="btn btn-cancel" id="btnClearHistory">Limpiar todo</button>
+    </div>
+  </div>
+
+</div><!-- /card -->
+
+<!-- Modal detalle historial -->
+<div class="history-detail-modal" id="historyModal">
+  <div class="modal-box">
+    <div class="modal-title">Detalle del pedido</div>
+    <div class="modal-date" id="modalDate"></div>
+    <div id="modalContent"></div>
+    <button class="modal-close" id="modalClose">Cerrar</button>
+  </div>
+</div>
+
+<script>
+// ── STATE ──
+let state = {
+  type: null,       // 'byn' | 'color'
+  price: 0,
+  items: [],        // [{type, price, qty, cost}]
+  payment: 0,
+  total: 0,
+  change: 0,
+  viewMode: 'price' // 'price' | 'sheets'
+};
+
+let history = JSON.parse(localStorage.getItem('printHistory') || '[]');
+let prevStep = null;
+
+// ── STEP MANAGEMENT ──
+function showStep(id) {
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+
+  if (id === 'step2') {
+    setTimeout(() => {
+      const inp = document.getElementById('qtyInput');
+      inp.focus(); inp.select();
+    }, 50);
+    updateTypeBadge();
+    updatePreviewCost();
+  }
+  if (id === 'step3') {
+    renderItems();
+  }
+  if (id === 'step4') {
+    updatePayStep();
+    setTimeout(() => {
+      const inp = document.getElementById('payInput');
+      inp.focus(); inp.select();
+    }, 50);
+  }
+  if (id === 'step5') {
+    renderReceipt();
+  }
+  if (id === 'stepHistory') {
+    renderHistory();
+  }
+}
+
+// ── STEP 1: TYPE SELECT ──
+function selectType(el) {
+  document.querySelectorAll('.type-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  state.type  = el.dataset.type;
+  state.price = parseInt(el.dataset.price);
+  setTimeout(() => showStep('step2'), 180);
+}
+
+document.getElementById('optByn').addEventListener('click', function(){ selectType(this); });
+document.getElementById('optColor').addEventListener('click', function(){ selectType(this); });
+
+// ── TYPE BADGE ──
+function updateTypeBadge() {
+  const badge = document.getElementById('typeBadgeQty');
+  const cls   = state.type === 'byn' ? 'byn' : 'color';
+  const label = state.type === 'byn' ? '🖤 Blanco y Negro · $50/hoja' : '🌈 A Color · $200/hoja';
+  badge.innerHTML = `<div class="selected-type-badge ${cls}">${label}</div>`;
+
+  const inp = document.getElementById('qtyInput');
+  inp.className = 'big-input ' + (state.type === 'byn' ? 'byn-focus' : 'col-focus');
+}
+
+// ── PREVIEW COST ──
+function updatePreviewCost() {
+  const qty = parseInt(document.getElementById('qtyInput').value) || 0;
+  if (qty > 0 && state.price > 0) {
+    const total = qty * state.price;
+    document.getElementById('previewCost').textContent =
+      `${qty} hoja${qty>1?'s':''} × $${state.price} = $${fmtNum(total)}`;
+  } else {
+    document.getElementById('previewCost').textContent = '';
+  }
+}
+document.getElementById('qtyInput').addEventListener('input', updatePreviewCost);
+
+// ── STEP 2: QUANTITY ──
+function processQty() {
+  const qty = parseInt(document.getElementById('qtyInput').value);
+  if (isNaN(qty) || qty < 1) {
+    document.getElementById('errorQty').style.display = 'block';
+    return;
+  }
+  document.getElementById('errorQty').style.display = 'none';
+
+  const typeName = state.type === 'byn' ? 'Blanco y Negro' : 'A Color';
+  state.items.push({ type: state.type, typeName, price: state.price, qty, cost: state.price * qty });
+
+  showStep('step3');
+}
+
+document.getElementById('btnContinueQty').addEventListener('click', processQty);
+document.getElementById('btnEscQty').addEventListener('click', () => showStep('step1'));
+document.getElementById('btnBackQty').addEventListener('click', cancelAll);
+
+// ── STEP 3: DETAIL ──
+function renderItems() {
+  state.total = state.items.reduce((s, i) => s + i.cost, 0);
+  document.getElementById('totalDisplay').textContent = '$' + fmtNum(state.total);
+
+  const container = document.getElementById('itemsContainer');
+  container.innerHTML = '';
+
+  if (state.items.length === 0) {
+    container.innerHTML = '<div class="empty-state">Sin items</div>';
+    return;
+  }
+
+  const isSheets = state.viewMode === 'sheets';
+  document.getElementById('colQtyHeader').textContent = isSheets ? 'Costo/u' : 'Hojas';
+  document.getElementById('colCostHeader').textContent = isSheets ? 'Hojas' : 'Total';
+
+  state.items.forEach((item, idx) => {
+    const row = document.createElement('div');
+    row.className = 'item-row';
+
+    const typeSpan = `<span class="item-type ${item.type}">${item.type === 'byn' ? '🖤 BYN' : '🌈 Color'}</span>`;
+
+    let qtyCell, costCell;
+    if (isSheets) {
+      qtyCell  = `<div class="item-qty" style="text-align:right;">$${fmtNum(item.price)}</div>`;
+      costCell = `<div class="item-cost" style="text-align:right;color:var(--muted);">${item.qty} hj</div>`;
+    } else {
+      qtyCell  = `<div class="item-qty" style="text-align:right;">${item.qty} hj</div>`;
+      costCell = `<div class="item-cost" style="text-align:right;">$${fmtNum(item.cost)}</div>`;
+    }
+
+    row.innerHTML = `
+      ${typeSpan}
+      ${qtyCell}
+      ${costCell}
+      <button class="item-del" data-idx="${idx}" title="Eliminar">✕</button>
+    `;
+    container.appendChild(row);
+  });
+
+  container.querySelectorAll('.item-del').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      state.items.splice(parseInt(btn.dataset.idx), 1);
+      if (state.items.length === 0) {
+        cancelAll();
+      } else {
+        renderItems();
+      }
+    });
+  });
+}
+
+// Toggle view
+document.getElementById('viewPricePerSheet').addEventListener('click', function() {
+  state.viewMode = 'price';
+  this.classList.add('active');
+  document.getElementById('viewSheetsPerPrice').classList.remove('active');
+  renderItems();
+});
+document.getElementById('viewSheetsPerPrice').addEventListener('click', function() {
+  state.viewMode = 'sheets';
+  this.classList.add('active');
+  document.getElementById('viewPricePerSheet').classList.remove('active');
+  renderItems();
+});
+
+document.getElementById('btnAddMore').addEventListener('click', () => {
+  state.type = null; state.price = 0;
+  document.querySelectorAll('.type-card').forEach(c => c.classList.remove('selected'));
+  document.getElementById('qtyInput').value = 1;
+  showStep('step1');
+});
+
+document.getElementById('btnGoPayment').addEventListener('click', () => showStep('step4'));
+document.getElementById('btnCancelOrder').addEventListener('click', cancelAll);
+
+// ── STEP 4: PAYMENT ──
+let payAccum = 0;
+
+function updatePayStep() {
+  payAccum = 0;
+  document.getElementById('totalPayStep').textContent = '$' + fmtNum(state.total);
+  document.getElementById('payInput').value = '';
+  document.getElementById('paymentDisplay').style.display = 'none';
+  document.getElementById('errorPay').style.display = 'none';
+}
+
+// Coin buttons
+document.getElementById('coinGrid').addEventListener('click', (e) => {
+  const btn = e.target.closest('.coin-btn');
+  if (!btn) return;
+  const val = parseInt(btn.dataset.val);
+
+  if (btn.id === 'coinExact') {
+    payAccum = state.total;
+  } else {
+    payAccum += val;
+  }
+
+  document.getElementById('payInput').value = payAccum;
+  showPaymentPreview(payAccum);
+});
+
+document.getElementById('payInput').addEventListener('input', function() {
+  const v = parseInt(this.value) || 0;
+  payAccum = v;
+  if (v > 0) showPaymentPreview(v);
+  else document.getElementById('paymentDisplay').style.display = 'none';
+});
+
+function showPaymentPreview(v) {
+  document.getElementById('payDisplayAmount').textContent = '$' + fmtNum(v);
+  document.getElementById('paymentDisplay').style.display = 'flex';
+}
+
+function calcChange() {
+  const pay = parseInt(document.getElementById('payInput').value) || 0;
+  if (pay < state.total) {
+    document.getElementById('errorPay').style.display = 'block';
+    return;
+  }
+  document.getElementById('errorPay').style.display = 'none';
+  state.payment = pay;
+  state.change  = pay - state.total;
+  saveToHistory();
+  showStep('step5');
+}
+
+document.getElementById('btnCalc').addEventListener('click', calcChange);
+document.getElementById('btnBackPay').addEventListener('click', () => showStep('step3'));
+document.getElementById('btnCancelPay').addEventListener('click', cancelAll);
+
+// ── STEP 5: RECEIPT ──
+function renderReceipt() {
+  document.getElementById('changeDisplay').textContent = '$' + fmtNum(state.change);
+
+  let rows = state.items.map(i =>
+    `<div class="receipt-row">
+      <span class="rkey">${i.typeName} × ${i.qty} hj</span>
+      <span class="rval" style="color:${i.type==='byn'?'var(--byn)':'var(--col)'};">$${fmtNum(i.cost)}</span>
+    </div>`
+  ).join('');
+
+  document.getElementById('receiptBox').innerHTML = `
+    ${rows}
+    <hr class="divider">
+    <div class="receipt-row r-total">
+      <span class="rkey">Total cobrado</span>
+      <span class="rval">$${fmtNum(state.total)}</span>
+    </div>
+    <div class="receipt-row r-paid">
+      <span class="rkey">Pago recibido</span>
+      <span class="rval">$${fmtNum(state.payment)}</span>
+    </div>
+  `;
+}
+
+document.getElementById('btnNew').addEventListener('click', resetAll);
+
+// ── HISTORY ──
+function saveToHistory() {
+  const record = {
+    id:      Date.now(),
+    date:    new Date().toLocaleString('es-CL'),
+    items:   [...state.items],
+    total:   state.total,
+    payment: state.payment,
+    change:  state.change
+  };
+  history.unshift(record);
+  localStorage.setItem('printHistory', JSON.stringify(history));
+}
+
+function renderHistory() {
+  const list = document.getElementById('historyList');
+  if (history.length === 0) {
+    list.innerHTML = '<div class="empty-state">Sin ventas registradas aún.</div>';
+    return;
+  }
+  list.innerHTML = history.map(h => {
+    const summary = h.items.map(i => `${i.typeName} ×${i.qty}`).join(', ');
+    return `
+      <div class="history-item" data-id="${h.id}">
+        <div class="history-item-header">
+          <span class="history-date">${h.date}</span>
+          <span class="history-total">$${fmtNum(h.total)}</span>
+        </div>
+        <div class="history-items-text">${summary}</div>
+        <div class="history-change">Vuelto entregado: $${fmtNum(h.change)}</div>
+      </div>`;
+  }).join('');
+
+  list.querySelectorAll('.history-item').forEach(el => {
+    el.addEventListener('click', () => openHistoryDetail(parseInt(el.dataset.id)));
+  });
+}
+
+function openHistoryDetail(id) {
+  const record = history.find(h => h.id === id);
+  if (!record) return;
+
+  document.getElementById('modalDate').textContent = record.date;
+
+  let html = record.items.map(i =>
+    `<div class="receipt-row">
+      <span class="rkey">${i.typeName} × ${i.qty} hj</span>
+      <span class="rval">$${fmtNum(i.cost)}</span>
+    </div>`
+  ).join('');
+
+  html += `
+    <hr class="divider">
+    <div class="receipt-row r-total"><span class="rkey">Total</span><span class="rval">$${fmtNum(record.total)}</span></div>
+    <div class="receipt-row r-paid"><span class="rkey">Pago</span><span class="rval" style="color:var(--green);">$${fmtNum(record.payment)}</span></div>
+    <div class="receipt-row r-change"><span class="rkey">Vuelto</span><span class="rval">$${fmtNum(record.change)}</span></div>
+  `;
+
+  document.getElementById('modalContent').innerHTML = `<div class="receipt-box">${html}</div>`;
+  document.getElementById('historyModal').classList.add('open');
+}
+
+document.getElementById('modalClose').addEventListener('click', () => {
+  document.getElementById('historyModal').classList.remove('open');
+});
+document.getElementById('historyModal').addEventListener('click', (e) => {
+  if (e.target === document.getElementById('historyModal'))
+    document.getElementById('historyModal').classList.remove('open');
+});
+
+document.getElementById('btnHistory').addEventListener('click', () => {
+  prevStep = document.querySelector('.step.active')?.id;
+  showStep('stepHistory');
+});
+document.getElementById('btnBackHistory').addEventListener('click', () => showStep(prevStep || 'step1'));
+document.getElementById('btnClearHistory').addEventListener('click', () => {
+  if (confirm('¿Limpiar todo el historial?')) {
+    history = [];
+    localStorage.removeItem('printHistory');
+    renderHistory();
+  }
+});
+
+// ── UTILS ──
+function fmtNum(n) {
+  return Number(n).toLocaleString('es-CL');
+}
+
+function cancelAll() {
+  if (state.items.length > 0) {
+    if (!confirm('¿Cancelar todo y empezar de nuevo?')) return;
+  }
+  resetAll();
+}
+
+function resetAll() {
+  state = { type:null, price:0, items:[], payment:0, total:0, change:0, viewMode:'price' };
+  document.querySelectorAll('.type-card').forEach(c => c.classList.remove('selected'));
+  document.getElementById('qtyInput').value = 1;
+  document.getElementById('payInput').value = '';
+  document.getElementById('viewPricePerSheet').classList.add('active');
+  document.getElementById('viewSheetsPerPrice').classList.remove('active');
+  showStep('step1');
+}
+
+// ── KEYBOARD SHORTCUTS ──
+document.addEventListener('keydown', (e) => {
+  const activeStep = document.querySelector('.step.active')?.id;
+
+  // Modal abierto → Esc para cerrarlo
+  if (document.getElementById('historyModal').classList.contains('open')) {
+    if (e.key === 'Escape') document.getElementById('historyModal').classList.remove('open');
+    return;
+  }
+
+  if (activeStep === 'step1') {
+    if (e.key === '1') { e.preventDefault(); selectType(document.getElementById('optByn')); }
+    if (e.key === '2') { e.preventDefault(); selectType(document.getElementById('optColor')); }
+  }
+
+  if (activeStep === 'step2') {
+    if (e.key === 'Enter') { e.preventDefault(); processQty(); }
+    if (e.key === 'Escape') { e.preventDefault(); showStep('step1'); }
+  }
+
+  if (activeStep === 'step3') {
+    if (e.key === 'Enter') { e.preventDefault(); showStep('step4'); }
+    if (e.key === '+' || e.key === '=') {
+      e.preventDefault();
+      state.type = null; state.price = 0;
+      document.querySelectorAll('.type-card').forEach(c => c.classList.remove('selected'));
+      document.getElementById('qtyInput').value = 1;
+      showStep('step1');
+    }
+    if (e.key === 'Escape') { e.preventDefault(); cancelAll(); }
+  }
+
+  if (activeStep === 'step4') {
+    if (e.key === 'Enter') { e.preventDefault(); calcChange(); }
+    if (e.key === 'Escape') { e.preventDefault(); showStep('step3'); }
+  }
+
+  if (activeStep === 'step5') {
+    if (e.key === 'Enter') { e.preventDefault(); resetAll(); }
+  }
+
+  if (activeStep === 'stepHistory') {
+    if (e.key === 'Escape') { e.preventDefault(); showStep(prevStep || 'step1'); }
+  }
+});
+</script>
+</body>
+</html>
