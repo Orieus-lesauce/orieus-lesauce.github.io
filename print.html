@@ -670,10 +670,12 @@
       <div id="itemsContainer"></div>
     </div>
 
-    <div class="total-bar">
+<div class="total-bar">
       <div class="total-label">Total a cobrar</div>
       <div class="total-amount" id="totalDisplay">$0</div>
     </div>
+
+    <div id="sheetSummary3" style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;font-family:var(--mono);font-size:0.82rem;"></div>
 
     <div class="btn-row">
       <button class="btn btn-cancel" id="btnCancelOrder">✕ Cancelar</button>
@@ -697,6 +699,8 @@
       <div class="total-label">Total a cobrar</div>
       <div class="total-amount" id="totalPayStep">$0</div>
     </div>
+
+    <div id="sheetSummary4" style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;font-family:var(--mono);font-size:0.82rem;"></div>
 
     <label class="input-label">MONEDAS Y BILLETES RÁPIDOS</label>
     <div class="coin-grid" id="coinGrid">
@@ -876,6 +880,25 @@ document.getElementById('btnContinueQty').addEventListener('click', processQty);
 document.getElementById('btnEscQty').addEventListener('click', () => showStep('step1'));
 document.getElementById('btnBackQty').addEventListener('click', cancelAll);
 
+// ── SHEET SUMMARY HELPER ──
+function buildSheetSummary(items) {
+  const byn   = items.filter(i => i.type === 'byn').reduce((s,i) => s+i.qty, 0);
+  const color = items.filter(i => i.type === 'color').reduce((s,i) => s+i.qty, 0);
+  const total = byn + color;
+  const hasBoth = byn > 0 && color > 0;
+  let html = '';
+  if (hasBoth) {
+    html += `<span style="background:var(--byn-bg);border:1px solid var(--byn-bd);color:var(--byn);padding:4px 12px;border-radius:6px;">📄 BYN: ${byn} hj</span>`;
+    html += `<span style="background:var(--col-bg);border:1px solid var(--col-bd);color:var(--col);padding:4px 12px;border-radius:6px;">🌈 Color: ${color} hj</span>`;
+    html += `<span style="background:var(--surface);border:1px solid var(--border);color:var(--muted);padding:4px 12px;border-radius:6px;">Total: ${total} hj</span>`;
+  } else if (byn > 0) {
+    html += `<span style="background:var(--byn-bg);border:1px solid var(--byn-bd);color:var(--byn);padding:4px 12px;border-radius:6px;">📄 BYN: ${total} hj</span>`;
+  } else {
+    html += `<span style="background:var(--col-bg);border:1px solid var(--col-bd);color:var(--col);padding:4px 12px;border-radius:6px;">🌈 Color: ${total} hj</span>`;
+  }
+  return html;
+}
+
 // ── STEP 3: DETAIL ──
 function renderItems() {
   state.total = state.items.reduce((s, i) => s + i.cost, 0);
@@ -917,7 +940,7 @@ function renderItems() {
     container.appendChild(row);
   });
 
-  container.querySelectorAll('.item-del').forEach(btn => {
+container.querySelectorAll('.item-del').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
       state.items.splice(parseInt(btn.dataset.idx), 1);
@@ -928,6 +951,8 @@ function renderItems() {
       }
     });
   });
+
+  document.getElementById('sheetSummary3').innerHTML = buildSheetSummary(state.items);
 }
 
 // Toggle view
@@ -963,6 +988,7 @@ function updatePayStep() {
   document.getElementById('payInput').value = '';
   document.getElementById('paymentDisplay').style.display = 'none';
   document.getElementById('errorPay').style.display = 'none';
+  document.getElementById('sheetSummary4').innerHTML = buildSheetSummary(state.items);
 }
 
 // Coin buttons
@@ -1021,17 +1047,15 @@ function renderReceipt() {
     </div>`
   ).join('');
 
+  const sheetHtml = `<div style="display:flex;gap:8px;flex-wrap:wrap;padding:10px 0 4px;">${buildSheetSummary(state.items)}</div>`;
+
   document.getElementById('receiptBox').innerHTML = `
     ${rows}
     <hr class="divider">
-    <div class="receipt-row r-total">
-      <span class="rkey">Total cobrado</span>
-      <span class="rval">$${fmtNum(state.total)}</span>
-    </div>
-    <div class="receipt-row r-paid">
-      <span class="rkey">Pago recibido</span>
-      <span class="rval">$${fmtNum(state.payment)}</span>
-    </div>
+    ${sheetHtml}
+    <hr class="divider">
+    <div class="receipt-row r-total"><span class="rkey">Total cobrado</span><span class="rval">$${fmtNum(state.total)}</span></div>
+    <div class="receipt-row r-paid"><span class="rkey">Pago recibido</span><span class="rval">$${fmtNum(state.payment)}</span></div>
   `;
 }
 
