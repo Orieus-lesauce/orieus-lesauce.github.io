@@ -4,66 +4,66 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Servicio de Impresión</title>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg:        #0d1117;
-    --surface:   #161b22;
-    --border:    #30363d;
-    --text:      #e6edf3;
-    --muted:     #8b949e;
+:root {
+    --bg:        #0b0f1e;
+    --surface:   #111827;
+    --border:    #1e2d4a;
+    --text:      #e2e8f5;
+    --muted:     #7a90b8;
 
     --byn:       #94a3b8;
-    --byn-bg:    #1e2533;
-    --byn-bd:    #475569;
-    --byn-glow:  rgba(148,163,184,0.15);
+    --byn-bg:    #1a2035;
+    --byn-bd:    #3a5070;
+    --byn-glow:  rgba(148,163,184,0.2);
 
     --col:       #fbbf24;
-    --col-bg:    #1f1a0e;
-    --col-bd:    #92400e;
-    --col-glow:  rgba(251,191,36,0.15);
+    --col-bg:    #1f1800;
+    --col-bd:    #854d0e;
+    --col-glow:  rgba(251,191,36,0.2);
 
-    --green:     #22c55e;
-    --green-bg:  #052e16;
-    --green-bd:  #166534;
+    --green:     #34d399;
+    --green-bg:  #022c22;
+    --green-bd:  #059669;
 
-    --total:     #f97316;
-    --total-bg:  #1c0a00;
-    --total-bd:  #7c2d12;
+    --total:     #fb923c;
+    --total-bg:  #431407;
+    --total-bd:  #c2410c;
 
-    --cancel:    #ef4444;
+    --cancel:    #f87171;
 
     --radius:    10px;
     --mono:      'IBM Plex Mono', monospace;
-    --sans:      'IBM Plex Sans', sans-serif;
+    --sans:      'Atkinson Hyperlegible', sans-serif;
   }
 
 body.light {
-    --bg:        #f3f3f3;
-    --surface:   #ffffff;
-    --border:    #d0d7de;
-    --text:      #1c2128;
-    --muted:     #57606a;
+    --bg:        #dbeafe;
+    --surface:   #f0f7ff;
+    --border:    #93c5fd;
+    --text:      #1e3a5f;
+    --muted:     #3b6ea8;
 
-    --byn:       #475569;
-    --byn-bg:    #e8ecf0;
-    --byn-bd:    #94a3b8;
-    --byn-glow:  rgba(71,85,105,0.12);
+    --byn:       #334155;
+    --byn-bg:    #cbd5e1;
+    --byn-bd:    #64748b;
+    --byn-glow:  rgba(51,65,85,0.15);
 
-    --col:       #b45309;
+    --col:       #92400e;
     --col-bg:    #fef3c7;
-    --col-bd:    #fbbf24;
-    --col-glow:  rgba(180,83,9,0.12);
+    --col-bd:    #d97706;
+    --col-glow:  rgba(146,64,14,0.15);
 
-    --green:     #16a34a;
-    --green-bg:  #a3ffc3;
-    --green-bd:  #86efac;
+    --green:     #15803d;
+    --green-bg:  #dcfce7;
+    --green-bd:  #4ade80;
 
-    --total:     #ea580c;
+    --total:     #c2410c;
     --total-bg:  #ffedd5;
     --total-bd:  #fb923c;
 
-    --cancel:    #dc2626;
+    --cancel:    #b91c1c;
   }
 
   * { margin:0; padding:0; box-sizing:border-box; }
@@ -72,6 +72,7 @@ body.light {
     background: var(--bg);
     color: var(--text);
     font-family: var(--sans);
+    font-size: 17px;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -83,7 +84,7 @@ body.light {
   /* ── HEADER ── */
   .app-header {
     width: 100%;
-    max-width: 640px;
+    max-width: 740px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -118,7 +119,7 @@ body.light {
   /* ── CARD ── */
   .card {
     width: 100%;
-    max-width: 640px;
+    max-width: 740px;
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
@@ -135,15 +136,16 @@ body.light {
   }
 
   .step-label {
-    font-family: var(--mono);
-    font-size: 0.7rem;
+    font-family: var(--sans);
+    font-size: 0.9rem;
+    font-weight: 700;
     color: var(--muted);
-    letter-spacing: .12em;
+    letter-spacing: .06em;
     text-transform: uppercase;
     margin-bottom: 6px;
   }
   .step-title {
-    font-size: 1.25rem;
+    font-size: 1.45rem;
     font-weight: 700;
     margin-bottom: 20px;
     color: var(--text);
@@ -220,7 +222,7 @@ body.light {
 
   .type-price {
     font-family: var(--mono);
-    font-size: 1.3rem;
+    font-size: 1.55rem;
     font-weight: 700;
     margin-top: 6px;
   }
@@ -240,13 +242,30 @@ body.light {
   /* ── INPUT ── */
   .input-group { margin-bottom: 20px; }
   .input-label {
-    font-size: 0.8rem;
+    font-size: 1rem;
     color: var(--muted);
     margin-bottom: 8px;
     display: block;
-    font-family: var(--mono);
-    letter-spacing: .05em;
+    font-family: var(--sans);
+    font-weight: 700;
+    letter-spacing: .02em;
   }
+  .input-prefix-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  .input-prefix {
+    position: absolute;
+    left: 18px;
+    font-family: var(--mono);
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--green);
+    pointer-events: none;
+    user-select: none;
+  }
+  .input-prefix-wrap .big-input { padding-left: 54px; }
   .big-input {
     width: 100%;
     background: var(--bg);
@@ -254,9 +273,9 @@ body.light {
     border-radius: var(--radius);
     color: var(--text);
     font-family: var(--mono);
-    font-size: 2rem;
+    font-size: 2.5rem;
     font-weight: 700;
-    padding: 14px 18px;
+    padding: 16px 18px;
     text-align: center;
     transition: border-color .2s;
   }
@@ -298,9 +317,9 @@ body.light {
   .items-list-header {
     display: grid;
     grid-template-columns: 1fr 80px 90px 28px;
-    padding: 8px 14px;
-    font-family: var(--mono);
-    font-size: 0.65rem;
+    padding: 10px 14px;
+    font-family: var(--sans);
+    font-size: 0.85rem;
     color: var(--muted);
     text-transform: uppercase;
     letter-spacing: .08em;
@@ -312,7 +331,7 @@ body.light {
     display: grid;
     grid-template-columns: 1fr 80px 90px 28px;
     align-items: center;
-    padding: 10px 14px;
+    padding: 13px 14px;
     border-bottom: 1px solid var(--border);
     transition: background .15s;
   }
@@ -320,8 +339,8 @@ body.light {
   .item-row:hover { background: rgba(255,255,255,0.03); }
 
   .item-type {
-    font-weight: 600;
-    font-size: 0.88rem;
+    font-weight: 700;
+    font-size: 1.1rem;
     display: flex; align-items: center; gap: 6px;
   }
   .item-type.byn { color: var(--byn); }
@@ -329,7 +348,7 @@ body.light {
 
   .item-qty, .item-cost {
     font-family: var(--mono);
-    font-size: 0.88rem;
+    font-size: 1.05rem;
     text-align: right;
   }
   .item-qty { color: var(--muted); }
@@ -348,28 +367,6 @@ body.light {
   }
   .item-del:hover { color: var(--cancel); background: rgba(239,68,68,0.1); }
 
-  /* toggle view */
-  .view-toggle {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 8px;
-    margin-bottom: 8px;
-  }
-  .view-toggle span { font-size: 0.72rem; color: var(--muted); font-family: var(--mono); }
-  .toggle-btn {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    color: var(--muted);
-    font-size: 0.72rem;
-    font-family: var(--mono);
-    padding: 4px 10px;
-    cursor: pointer;
-    transition: all .2s;
-  }
-  .toggle-btn:hover, .toggle-btn.active { border-color: var(--total); color: var(--total); }
-
   /* ── TOTAL BAR ── */
   .total-bar {
     background: var(--total-bg);
@@ -382,16 +379,17 @@ body.light {
     margin-bottom: 16px;
   }
   .total-label {
-    font-family: var(--mono);
-    font-size: 0.75rem;
+    font-family: var(--sans);
+    font-size: 1rem;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: .1em;
+    letter-spacing: .05em;
     color: var(--total);
-    opacity: .8;
+    opacity: .95;
   }
-  .total-amount {
+.total-amount {
     font-family: var(--mono);
-    font-size: 1.8rem;
+    font-size: 2.3rem;
     font-weight: 700;
     color: var(--total);
   }
@@ -476,8 +474,8 @@ body.light {
     justify-content: space-between;
     margin-bottom: 10px;
   }
-  .payment-label { font-family: var(--mono); font-size: 0.75rem; color: var(--green); opacity: .8; text-transform: uppercase; }
-  .payment-amount { font-family: var(--mono); font-size: 1.8rem; font-weight: 700; color: var(--green); }
+  .payment-label { font-family: var(--sans); font-size: 1rem; font-weight: 700; color: var(--green); opacity: .95; text-transform: uppercase; }
+  .payment-amount { font-family: var(--mono); font-size: 2.3rem; font-weight: 700; color: var(--green); }
 
   /* ── RECEIPT ── */
   .receipt-box {
@@ -511,8 +509,8 @@ body.light {
     padding: 18px;
     margin-bottom: 18px;
   }
-  .change-label { font-family: var(--mono); font-size: 0.75rem; color: var(--green); opacity:.75; text-transform: uppercase; letter-spacing:.1em; margin-bottom: 4px; }
-  .change-value { font-family: var(--mono); font-size: 2.4rem; font-weight: 700; color: var(--green); }
+  .change-label { font-family: var(--sans); font-size: 1rem; font-weight: 700; color: var(--green); opacity:.95; text-transform: uppercase; letter-spacing:.05em; margin-bottom: 6px; }
+  .change-value { font-family: var(--mono); font-size: 3rem; font-weight: 700; color: var(--green); }
 
   /* ── HISTORY ── */
   .history-list { max-height: 420px; overflow-y: auto; }
@@ -683,12 +681,6 @@ body.light {
     <div class="step-label">Paso 3 / 3</div>
     <div class="step-title">Detalle del pedido</div>
 
-    <div class="view-toggle">
-      <span>Ver como:</span>
-      <button class="toggle-btn active" id="viewPricePerSheet">$/hoja</button>
-      <button class="toggle-btn" id="viewSheetsPerPrice">hojas/$</button>
-    </div>
-
     <div class="items-list">
       <div class="items-list-header">
         <div>Tipo</div>
@@ -745,7 +737,10 @@ body.light {
 
     <div class="input-group">
       <label class="input-label" for="payInput">O INGRESA EL MONTO MANUALMENTE</label>
-      <input class="big-input" type="number" id="payInput" min="0" placeholder="0">
+      <div class="input-prefix-wrap">
+        <span class="input-prefix">$</span>
+        <input class="big-input" type="number" id="payInput" min="0" placeholder="0">
+      </div>
       <div class="error-msg" id="errorPay">⚠ El pago debe ser mayor o igual al total</div>
     </div>
 
@@ -955,29 +950,16 @@ function renderItems() {
     return;
   }
 
-  const isSheets = state.viewMode === 'sheets';
-  document.getElementById('colQtyHeader').textContent = isSheets ? 'Costo/u' : 'Hojas';
-  document.getElementById('colCostHeader').textContent = isSheets ? 'Hojas' : 'Total';
+document.getElementById('colQtyHeader').textContent = 'Hojas';
+  document.getElementById('colCostHeader').textContent = 'Total';
 
   state.items.forEach((item, idx) => {
     const row = document.createElement('div');
     row.className = 'item-row';
-
-    const typeSpan = `<span class="item-type ${item.type}">${item.type === 'byn' ? '📄 BYN' : '🌈 Color'}</span>`;
-
-    let qtyCell, costCell;
-    if (isSheets) {
-      qtyCell  = `<div class="item-qty" style="text-align:right;">$${fmtNum(item.price)}</div>`;
-      costCell = `<div class="item-cost" style="text-align:right;color:var(--muted);">${item.qty} hj</div>`;
-    } else {
-      qtyCell  = `<div class="item-qty" style="text-align:right;">${item.qty} hj</div>`;
-      costCell = `<div class="item-cost" style="text-align:right;">$${fmtNum(item.cost)}</div>`;
-    }
-
     row.innerHTML = `
-      ${typeSpan}
-      ${qtyCell}
-      ${costCell}
+      <span class="item-type ${item.type}">${item.type === 'byn' ? '📄 BYN' : '🌈 Color'}</span>
+      <div class="item-qty" style="text-align:right;">${item.qty} hj</div>
+      <div class="item-cost" style="text-align:right;">$${fmtNum(item.cost)}</div>
       <button class="item-del" data-idx="${idx}" title="Eliminar">✕</button>
     `;
     container.appendChild(row);
@@ -997,20 +979,6 @@ container.querySelectorAll('.item-del').forEach(btn => {
 
   document.getElementById('sheetSummary3').innerHTML = buildSheetSummary(state.items);
 }
-
-// Toggle view
-document.getElementById('viewPricePerSheet').addEventListener('click', function() {
-  state.viewMode = 'price';
-  this.classList.add('active');
-  document.getElementById('viewSheetsPerPrice').classList.remove('active');
-  renderItems();
-});
-document.getElementById('viewSheetsPerPrice').addEventListener('click', function() {
-  state.viewMode = 'sheets';
-  this.classList.add('active');
-  document.getElementById('viewPricePerSheet').classList.remove('active');
-  renderItems();
-});
 
 document.getElementById('btnAddMore').addEventListener('click', () => {
   state.type = null; state.price = 0;
@@ -1200,12 +1168,10 @@ function cancelAll() {
 }
 
 function resetAll() {
-  state = { type:null, price:0, items:[], payment:0, total:0, change:0, viewMode:'price' };
+  state = { type:null, price:0, items:[], payment:0, total:0, change:0 };
   document.querySelectorAll('.type-card').forEach(c => c.classList.remove('selected'));
   document.getElementById('qtyInput').value = 1;
   document.getElementById('payInput').value = '';
-  document.getElementById('viewPricePerSheet').classList.add('active');
-  document.getElementById('viewSheetsPerPrice').classList.remove('active');
   showStep('step1');
 }
 
